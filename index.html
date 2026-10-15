@@ -21,10 +21,10 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
 
-  <!-- Google Fonts: Plus Jakarta Sans -->
+  <!-- Google Fonts: Instrument Serif, JetBrains Mono, Public Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css" />
@@ -43,13 +43,15 @@
     <span>Institutional &amp; Healthcare Enterprise Catalogue • 2026 Edition</span>
   </aside>
 
-
   <!-- Site Header -->
   <header class="site-header" id="site-header">
     <div class="container header-inner">
       <!-- Brand Logo -->
       <a href="#hero" class="brand-link" aria-label="Zoe Vitals Home">
-        <img src="assets/images/logo.svg" alt="Zoe Vitals Medical Sourcing &amp; Catalogue" class="brand-logo" width="220" height="42" />
+        <span class="brand-symbol">
+          <span class="symbol-box"><span class="cross-v"></span><span class="cross-h"></span></span>
+        </span>
+        <span class="brand-name">Zoe Vitals</span>
       </a>
 
       <!-- Primary Navigation -->
@@ -65,14 +67,7 @@
         </ul>
 
         <div class="header-actions">
-          <button type="button" class="nav-search-btn" id="nav-search-btn" aria-label="Jump to catalogue search">
-            <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-            </svg>
-            <span>Search</span>
-            <kbd>/</kbd>
-          </button>
-          <a href="#enquiry" class="btn btn--primary btn--sm">Request Quote</a>
+          <a href="#enquiry" class="btn-header-quote">Request Quote</a>
         </div>
       </nav>
 
@@ -98,70 +93,83 @@
          1. HERO SECTION (Biomedical Authority Meets Clinical Precision)
          ====================================================================== -->
     <section class="hero" id="hero">
-      <div class="container hero-layout">
+      <div class="container">
         
-        <div class="hero-content" data-reveal="fade-up">
-          <div class="hero-eyebrow">
-            <span class="hero-eyebrow__pulse" aria-hidden="true"></span>
-            <span>Biomedical R&amp;D &amp; Clinical Procurement Infrastructure</span>
-          </div>
-
-          <h1 class="hero-title">
-            Data-Driven Medical Engineering &amp; <span>Clinical Verification</span>.
-          </h1>
-
-          <p class="hero-description">
-            Zoe Vitals verifies medical devices through factual engineering parameters, sensor repeatability benchmarks, and international standards conformity. Built for clinical networks, surgical facilities, and institutional healthcare procurement.
-          </p>
-
-          <div class="hero-actions">
-            <a href="#catalogue" class="btn btn--primary btn--lg">
-              <span>Explore Catalogue</span>
-              <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </a>
-            <a href="#rnd-bench" class="btn btn--secondary btn--lg">Launch R&amp;D Lab Bench</a>
-          </div>
-
-          <!-- Hero Metrics Bento Bar -->
-          <div class="hero-pillars">
-            <div class="hero-pillar-item">
-              <span class="hero-pillar-num" data-counter="100" data-counter-suffix="%">0%</span>
-              <h2 class="hero-pillar-title">Dossier Mapped</h2>
-              <p class="hero-pillar-desc">Catalogue specs certified against manufacturer engineering sheets.</p>
-            </div>
-            <div class="hero-pillar-item">
-              <span class="hero-pillar-num">ISO 13485</span>
-              <h2 class="hero-pillar-title">Quality Baseline</h2>
-              <p class="hero-pillar-desc">Compliant with international medical device quality systems.</p>
-            </div>
-            <div class="hero-pillar-item">
-              <span class="hero-pillar-num" data-counter="24" data-counter-prefix="&lt; " data-counter-suffix="h">&lt; 0h</span>
-              <h2 class="hero-pillar-title">SLA Response</h2>
-              <p class="hero-pillar-desc">Rapid turnaround for institutional quotation dossiers &amp; tenders.</p>
-            </div>
-          </div>
+        <div class="section-eyebrow-row" data-reveal="fade-up">
+          <span class="section-line" style="width: 40px; background-color: var(--color-medical-blue);"></span>
+          <span class="section-eyebrow-text">Biomedical Engineering · Clinical Sourcing Platform</span>
         </div>
 
-        <!-- Hero Editorial Imagery with 3D Tilt -->
-        <div class="hero-media-wrapper" data-reveal="scale" data-reveal-delay="200">
-          <div class="hero-card-frame tilt-card">
-            <img 
-              src="assets/images/hero-vitals-station.jpg" 
-              alt="Clinical patient vital signs monitoring workstation and diagnostic instrumentation" 
-              class="hero-img"
-              width="800"
-              height="500"
-            />
-            <div class="hero-badge-overlay">
-              <div class="hero-badge-header">
-                <span class="hero-badge-tag">REF: ZV-VTS-900</span>
-                <span class="badge badge--sample">Institutional Workstation</span>
-              </div>
-              <p class="hero-badge-title">OmniVue Patient Vital Signs Platform</p>
-              <p class="hero-badge-desc">Modular multi-parameter telemetry: ECG, NIBP, SpO2, Temperature &amp; HL7 Export.</p>
+        <div class="hero-layout">
+          
+          <div class="hero-content" data-reveal="fade-up">
+            <h1 class="hero-title">
+              Device specifications,<br />
+              <span class="italic text-primary">verified</span> against the<br />
+              engineering benchmark.
+            </h1>
+
+            <p class="hero-description">
+              An enterprise-grade medical products catalogue and life-sciences R&amp;D verification platform for clinical procurement directors, biomedical hospital engineers, and healthcare networks — bridging device specifications with empirical benchmarks and international regulatory conformity.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#catalogue" class="btn-hero-primary">
+                <span>Explore Verified Catalogue</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l10-10M7 7h10v10"/></svg>
+              </a>
+              <a href="#rnd-bench" class="btn-hero-secondary">
+                <span>Launch R&amp;D Bench</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+              </a>
             </div>
+          </div>
+
+          <!-- Hero Editorial Imagery (4:5 Aspect Frame with Telemetry Pills) -->
+          <div class="hero-media-wrapper" data-reveal="scale" data-reveal-delay="160">
+            <div class="hero-image-wrap">
+              <img 
+                src="assets/images/hero-vitals-station.jpg" 
+                alt="Clinical patient vital signs monitoring workstation and diagnostic instrumentation" 
+                width="800"
+                height="1000"
+              />
+              <div class="hero-floating-pills">
+                <div class="hero-pill-unit">
+                  <div class="pill-label">Reference Unit</div>
+                  <div class="pill-val">ZV-CVM-12 · CardioVue</div>
+                </div>
+                <div class="hero-pill-telemetry">
+                  <span class="telemetry-dot"></span>
+                  <span class="telemetry-text">Live Telemetry</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Hero Stats Row (4-Column Enterprise Metrics) -->
+        <div class="hero-stats-row" data-reveal="fade-up" data-reveal-delay="200">
+          <div class="hero-stat-cell">
+            <div class="hero-stat-num" data-counter="100" data-counter-suffix="%">0%</div>
+            <div class="hero-stat-label">Dossier Verification</div>
+            <div class="hero-stat-sub">Catalogue specs certified against OEM sheets</div>
+          </div>
+          <div class="hero-stat-cell">
+            <div class="hero-stat-num" data-counter="4">0</div>
+            <div class="hero-stat-label">Therapeutic Domains</div>
+            <div class="hero-stat-sub">Integrated verified supply chains</div>
+          </div>
+          <div class="hero-stat-cell">
+            <div class="hero-stat-num" data-counter="24" data-counter-prefix="&lt; " data-counter-suffix="h">&lt; 0h</div>
+            <div class="hero-stat-label">Procurement SLA</div>
+            <div class="hero-stat-sub">Guaranteed response time on verified quotes</div>
+          </div>
+          <div class="hero-stat-cell">
+            <div class="hero-stat-num">ISO 13485</div>
+            <div class="hero-stat-label">Quality Standard</div>
+            <div class="hero-stat-sub">ISO 13485:2016 audited sourcing baseline</div>
           </div>
         </div>
 
@@ -175,10 +183,14 @@
       <div class="container">
         
         <header class="section-header" data-reveal="fade-up">
-          <span class="section-eyebrow">Interactive Biomedical Engineering Console</span>
-          <h2 class="section-title">R&amp;D Verification &amp; Performance Simulator</h2>
+          <div class="section-eyebrow-row">
+            <span class="section-num">02</span>
+            <span class="section-line"></span>
+            <span class="section-eyebrow-text">Interactive R&amp;D Bench</span>
+          </div>
+          <h2 class="section-title">Simulate device tolerances against standard testing conditions.</h2>
           <p class="section-lead">
-            Explore clinical tolerances in real time. Adjust sensor perfusion thresholds, aerosolized droplet diameters, and autoclave metallurgical cycles to evaluate device performance against international standards.
+            A live hardware-lab console for hospital bio-engineers. Adjust the parameters and watch conformity against international standards recalculate in real time.
           </p>
         </header>
 
@@ -490,11 +502,12 @@
       <div class="container">
         
         <header class="section-header" data-reveal="fade-up">
-          <span class="section-eyebrow">Healthcare Capabilities Architecture</span>
-          <h2 class="section-title">Specialized Clinical Sourcing Domains</h2>
-          <p class="section-lead">
-            Structured sourcing pathways categorized by clinical environment, operational risk, and biomedical discipline.
-          </p>
+          <div class="section-eyebrow-row">
+            <span class="section-num">03</span>
+            <span class="section-line"></span>
+            <span class="section-eyebrow-text">Clinical Sourcing Domains</span>
+          </div>
+          <h2 class="section-title">Four therapeutic sourcing domains, one verified supply chain.</h2>
         </header>
 
         <!-- Modern 4-Part Bento Grid -->
@@ -590,10 +603,14 @@
       <div class="container">
         
         <header class="section-header" data-reveal="fade-up">
-          <span class="section-eyebrow">Medical Products Catalogue</span>
-          <h2 class="section-title">Explore Verified Medical Devices &amp; Consumables</h2>
+          <div class="section-eyebrow-row">
+            <span class="section-num">04</span>
+            <span class="section-line"></span>
+            <span class="section-eyebrow-text">Verified Products Catalogue</span>
+          </div>
+          <h2 class="section-title">A production-grade sourcing catalogue.</h2>
           <p class="section-lead">
-            Search, filter, compare, and inspect verified specifications across diagnostic devices, respiratory care, and hospital consumables. Select any item to view detailed engineering parameters or request institutional quotations.
+            Search, filter, and stage devices for side-by-side evaluation. Every entry carries its full engineering dossier.
           </p>
         </header>
         <!-- Filter & Search Controls -->
@@ -608,7 +625,7 @@
                 type="search" 
                 id="catalogue-search" 
                 class="search-box__input" 
-                placeholder="Search by product name, SKU reference (e.g. ZV-OXM-201), or specification..."
+                placeholder="Search devices, models, certifications…  ( / )"
                 aria-label="Search catalogue products"
               />
               <button type="button" id="clear-search-btn" class="search-box__clear" style="display: none;" aria-label="Clear search input">
@@ -685,9 +702,13 @@
     <section class="section section--subtle" id="standards">
       <div class="container">
         
-        <header class="section-header section-header--center" data-reveal="fade-up">
-          <span class="section-eyebrow">Regulatory Governance &amp; Quality Systems</span>
-          <h2 class="section-title">International Standards &amp; Verification Matrix</h2>
+        <header class="section-header" data-reveal="fade-up">
+          <div class="section-eyebrow-row">
+            <span class="section-num">05</span>
+            <span class="section-line"></span>
+            <span class="section-eyebrow-text">International Standards &amp; Verification</span>
+          </div>
+          <h2 class="section-title">Verifiable conformity, not marketing claims.</h2>
           <p class="section-lead">
             Every catalogue entry is audited against authoritative international safety baselines, electrical isolation standards, and clinical accuracy thresholds.
           </p>
@@ -791,10 +812,14 @@
       <div class="container">
         
         <header class="section-header" data-reveal="fade-up">
-          <span class="section-eyebrow">Biomedical Intelligence &amp; Whitepapers</span>
-          <h2 class="section-title">Clinical Sourcing Insights &amp; Engineering Analyses</h2>
+          <div class="section-eyebrow-row">
+            <span class="section-num">06</span>
+            <span class="section-line"></span>
+            <span class="section-eyebrow-text">Clinical Intelligence Dossiers</span>
+          </div>
+          <h2 class="section-title">Evidence-based whitepapers for procurement committees.</h2>
           <p class="section-lead">
-            Evidence-based technical dossiers examining clinical sensor tolerances, material degradation dynamics, and aerosol drug deposition benchmarks.
+            Engineering analysis — methodology, findings, and procurement recommendations — distilled into institutional dossiers.
           </p>
         </header>
 
@@ -854,10 +879,14 @@
       <div class="container">
         
         <header class="section-header" data-reveal="fade-up">
-          <span class="section-eyebrow">Direct Procurement Enquiries</span>
-          <h2 class="section-title">Request Quotations &amp; Technical Dossiers</h2>
+          <div class="section-eyebrow-row">
+            <span class="section-num">07</span>
+            <span class="section-line"></span>
+            <span class="section-eyebrow-text">Institutional Procurement Desk</span>
+          </div>
+          <h2 class="section-title">Begin a verified sourcing consultation.</h2>
           <p class="section-lead">
-            Contact our catalogue desk to request formal institutional pricing, volume delivery schedules, or product technical sheets.
+            Direct institutional channels for verified quotations, tender dossiers, and facility supply agreements.
           </p>
         </header>
 
@@ -1105,7 +1134,12 @@
       <div class="footer-top">
         
         <div class="footer-brand-col">
-          <img src="assets/images/logo.svg" alt="Zoe Vitals" class="brand-logo" style="filter: brightness(0) invert(1);" width="200" height="38" />
+          <a href="#hero" class="brand-link" style="color: #FFFDF0; margin-bottom: 1rem;">
+            <span class="brand-symbol" style="border-color: #8FBBC7; color: #8FBBC7;">
+              <span class="symbol-box" style="border-color: #8FBBC7;"><span class="cross-v" style="background-color: #8FBBC7;"></span><span class="cross-h" style="background-color: #8FBBC7;"></span></span>
+            </span>
+            <span class="brand-name" style="color: #FFFDF0; font-size: 24px;">Zoe Vitals</span>
+          </a>
           <p class="footer-desc">
             Transforming medical equipment procurement and clinical discovery through structured biomedical cataloguing and data-driven sourcing integrity.
           </p>
@@ -1114,13 +1148,13 @@
         <div>
           <h4 class="footer-col-title">Navigation</h4>
           <ul class="footer-links">
-            <li><a href="#hero" class="footer-link">Home Overview</a></li>
-            <li><a href="#rnd-bench" class="footer-link">R&amp;D Lab Bench</a></li>
-            <li><a href="#domains" class="footer-link">Clinical Domains</a></li>
-            <li><a href="#catalogue" class="footer-link">Products Catalogue</a></li>
-            <li><a href="#standards" class="footer-link">Standards Matrix</a></li>
-            <li><a href="#intelligence" class="footer-link">Clinical Intelligence</a></li>
-            <li><a href="#enquiry" class="footer-link">Procurement Enquiry</a></li>
+            <li><a href="#hero" class="footer-link">Overview</a></li>
+            <li><a href="#rnd-bench" class="footer-link">R&amp;D Bench</a></li>
+            <li><a href="#domains" class="footer-link">Domains</a></li>
+            <li><a href="#catalogue" class="footer-link">Catalogue</a></li>
+            <li><a href="#standards" class="footer-link">Standards</a></li>
+            <li><a href="#intelligence" class="footer-link">Intelligence</a></li>
+            <li><a href="#enquiry" class="footer-link">Procurement</a></li>
           </ul>
         </div>
 
@@ -1153,8 +1187,8 @@
       </div>
 
       <div class="footer-bottom">
-        <div>
-          &copy; 2026 Zoe Vitals. All rights reserved. Sourcing specifications subject to contract.
+        <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em;">
+          &copy; 2026 Zoe Vitals · Verification Bench v2.4
         </div>
         <div>
           <a href="#standards" class="footer-link" style="margin-right: 1rem;">Quality Governance</a>
