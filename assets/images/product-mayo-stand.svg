@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="standBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFDF0" />
+      <stop offset="100%" stop-color="#E8F1F3" />
+    </linearGradient>
+    <linearGradient id="steelTray" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="30%" stop-color="#DEE9EC" />
+      <stop offset="70%" stop-color="#F7FAFA" />
+      <stop offset="100%" stop-color="#A5C4CD" />
+    </linearGradient>
+    <linearGradient id="poleSteel" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C5D9DF" />
+      <stop offset="50%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#9CBBC4" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="20" stdDeviation="22" flood-color="#1B303E" flood-opacity="0.14" />
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#standBg)" />
+  <ellipse cx="400" cy="520" rx="230" ry="22" fill="#1B303E" fill-opacity="0.09" />
+
+  <g filter="url(#shadow)" transform="translate(200, 60)">
+    <!-- Removable Stainless Steel Instrument Tray -->
+    <rect x="30" y="60" width="340" height="70" rx="8" fill="url(#steelTray)" stroke="#8FBBC7" stroke-width="2" />
+    <!-- Tray recessed rim -->
+    <rect x="42" y="70" width="316" height="50" rx="5" fill="#E8F1F3" stroke="#8FBBC7" stroke-width="1.5" />
+    <!-- Tray lip highlight -->
+    <line x1="45" y1="63" x2="355" y2="63" stroke="#FFFFFF" stroke-width="2" />
+
+    <!-- Tray Support Arms -->
+    <path d="M 200 130 L 200 180" stroke="url(#poleSteel)" stroke-width="24" stroke-linecap="round" />
+    
+    <!-- Pneumatic / Hydraulic Height Adjust Collar -->
+    <rect x="184" y="180" width="32" height="35" rx="4" fill="#4C7D9F" stroke="#2F546E" stroke-width="2" />
+    <!-- Foot pedal release linkage rod -->
+    <line x1="222" y1="195" x2="222" y2="430" stroke="#8FBBC7" stroke-width="4" />
+
+    <!-- Telescoping Upright Central Mast -->
+    <rect x="190" y="215" width="20" height="230" fill="url(#poleSteel)" stroke="#8FBBC7" stroke-width="2" />
+
+    <!-- Weighted U-Shaped Base Frame -->
+    <path d="M 90 470 L 200 450 L 310 470" fill="none" stroke="url(#poleSteel)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Rear stabilizing foot -->
+    <path d="M 200 450 L 200 480" stroke="url(#poleSteel)" stroke-width="20" stroke-linecap="round" />
+
+    <!-- Smooth Rolling Hospital Casters -->
+    <!-- Left caster -->
+    <circle cx="85" cy="495" r="14" fill="#355C75" />
+    <circle cx="85" cy="495" r="5" fill="#C9EAE4" />
+    <!-- Right caster -->
+    <circle cx="315" cy="495" r="14" fill="#355C75" />
+    <circle cx="315" cy="495" r="5" fill="#C9EAE4" />
+    <!-- Center rear caster -->
+    <circle cx="200" cy="505" r="14" fill="#355C75" />
+    <circle cx="200" cy="505" r="5" fill="#C9EAE4" />
+
+    <!-- Foot Pedal Actuator -->
+    <rect x="175" y="425" width="50" height="14" rx="4" fill="#4C7D9F" stroke="#2F546E" stroke-width="2" />
+    <circle cx="200" cy="432" r="3" fill="#C9EAE4" />
+  </g>
+
+  <!-- Technical Spec Callout -->
+  <g transform="translate(560, 110)">
+    <rect width="190" height="74" rx="8" fill="#FFFFFF" stroke="#8FBBC7" stroke-width="1" filter="url(#shadow)" />
+    <text x="16" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#13222B">PHYSICAL SPECIFICATION</text>
+    <text x="16" y="42" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" font-weight="500" fill="#4C7D9F">Height: 820 – 1310 mm</text>
+    <text x="16" y="58" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" font-weight="500" fill="#6B8A99">Tray: 304 Stainless Steel</text>
+  </g>
+</svg>

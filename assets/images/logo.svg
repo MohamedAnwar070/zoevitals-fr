@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 64" width="340" height="64" fill="none">
+  <!-- Brandmark Icon -->
+  <g transform="translate(4, 8)">
+    <!-- Outer calm circle -->
+    <rect x="0" y="0" width="48" height="48" rx="14" fill="#4C7D9F" />
+    <!-- Inner soft mint accent layer -->
+    <rect x="4" y="4" width="40" height="40" rx="10" fill="#3D6886" />
+    
+    <!-- Medical cross + Vital pulse wave intersection -->
+    <path d="M 24 12 L 24 36" stroke="#FFFDF0" stroke-width="4.5" stroke-linecap="round" />
+    <path d="M 12 24 L 36 24" stroke="#FFFDF0" stroke-width="4.5" stroke-linecap="round" />
+    
+    <!-- Precision vital dot -->
+    <circle cx="24" cy="24" r="3.5" fill="#C9EAE4" />
+    <circle cx="34" cy="14" r="2.5" fill="#8FBBC7" />
+  </g>
+
+  <!-- Typography: ZOE VITALS -->
+  <text x="64" y="33" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="22" font-weight="800" fill="#13222B" letter-spacing="-0.02em">
+    ZOE <tspan fill="#4C7D9F">VITALS</tspan>
+  </text>
+  <text x="65" y="49" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600" fill="#60808F" letter-spacing="0.14em">
+    MEDICAL SOURCING &amp; CATALOGUE
+  </text>
+</svg>
