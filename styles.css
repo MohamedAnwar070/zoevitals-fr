@@ -1530,32 +1530,6 @@ a:hover {
   filter: drop-shadow(0 0 4px rgba(201, 234, 228, 0.5));
 }
 
-.rnd-stacked-meter {
-  display: flex;
-  height: 12px;
-  border-radius: 6px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
-  margin-top: 6px;
-}
-
-.rnd-meter-segment {
-  height: 100%;
-  transition: width 0.3s ease;
-}
-
-.rnd-meter-segment--alveolar {
-  background-color: var(--color-pale-mint);
-}
-
-.rnd-meter-segment--bronchial {
-  background-color: var(--color-muted-blue);
-}
-
-.rnd-meter-segment--loss {
-  background-color: var(--color-alert-red);
-}
-
 .rnd-takeaway {
   font-size: var(--text-xs);
   color: var(--color-enterprise-text-muted);
@@ -1568,6 +1542,251 @@ a:hover {
 
 .rnd-takeaway strong {
   color: var(--color-warm-ivory);
+}
+
+/* R&D Live Console Topbar & Presets */
+.rnd-console__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(143, 187, 199, 0.16);
+}
+
+.rnd-console__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rnd-live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10B981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: liveBenchPulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes liveBenchPulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.8); }
+  70% { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.rnd-status-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-pale-mint);
+  font-weight: 500;
+}
+
+.rnd-console__presets {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.rnd-presets-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--color-enterprise-text-muted);
+  text-transform: uppercase;
+}
+
+.rnd-preset-btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  background: rgba(255, 253, 240, 0.04);
+  color: var(--color-enterprise-text-muted);
+  border: 1px solid rgba(143, 187, 199, 0.2);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.rnd-preset-btn:hover {
+  color: var(--color-warm-ivory);
+  border-color: var(--color-medical-blue);
+  background: rgba(76, 125, 159, 0.15);
+}
+
+.rnd-preset-btn.active {
+  color: var(--color-warm-ivory);
+  background-color: var(--color-medical-blue);
+  border-color: var(--color-medical-blue);
+  font-weight: 600;
+}
+
+.rnd-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--color-enterprise-text-muted);
+  margin-top: 2px;
+}
+
+.rnd-pulse-blip {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10B981;
+  transition: transform 0.1s ease, background-color 0.1s ease, box-shadow 0.1s ease;
+}
+
+.rnd-pulse-blip.is-systole {
+  transform: scale(1.6);
+  background-color: #34D399;
+  box-shadow: 0 0 10px #34D399;
+}
+
+.rnd-canvas-container {
+  width: 100%;
+  height: 110px;
+  background: #061118;
+  border: 1px solid rgba(143, 187, 199, 0.22);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  position: relative;
+}
+
+.rnd-canvas-container canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.rnd-oscilloscope-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--color-enterprise-text-muted);
+  margin-top: 4px;
+}
+
+.rnd-button-toggle-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Aerosol Multi-Segment Bar Rows */
+.rnd-deposition-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.rnd-dep-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.rnd-dep-row__label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-enterprise-text-muted);
+}
+
+.rnd-dep-row__label strong {
+  color: var(--color-warm-ivory);
+}
+
+.rnd-dep-bar-track {
+  width: 100%;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rnd-dep-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rnd-dep-bar-fill--alveolar {
+  background: linear-gradient(90deg, #10B981, #34D399);
+}
+
+.rnd-dep-bar-fill--impaction {
+  background: linear-gradient(90deg, #3B82F6, #60A5FA);
+}
+
+.rnd-dep-bar-fill--loss {
+  background: linear-gradient(90deg, #EF4444, #F87171);
+}
+
+/* Metallurgy PREN Meter */
+.rnd-pren-meter-wrap {
+  margin-top: 6px;
+}
+
+.rnd-pren-bar {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.rnd-pren-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10B981, #34D399);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+}
+
+.rnd-pren-fill.is-fail {
+  background: linear-gradient(90deg, #EF4444, #F87171);
+}
+
+.rnd-pren-threshold-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 80%; /* 24 / 30 * 100% */
+  width: 2px;
+  background-color: var(--color-warm-ivory);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+}
+
+/* Console Footer */
+.rnd-console__footer {
+  border-top: 1px solid rgba(143, 187, 199, 0.16);
+  padding-top: 1rem;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--color-enterprise-text-muted);
+}
+
+.rnd-console__std-label {
+  color: var(--color-pale-mint);
 }
 
 /* ==========================================================================

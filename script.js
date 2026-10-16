@@ -605,14 +605,25 @@
   }
 
   /* ==========================================================================
-     8. INTERACTIVE BIOMEDICAL R&D LAB BENCH & BENTO FILTERS
+     8. INTERACTIVE BIOMEDICAL R&D LAB BENCH (Real Hardware Simulator)
      ========================================================================== */
   function setupRndBench() {
-    // 1. Tab Switching
+    let currentActiveTab = 'oximetry';
+
+    // 1. Tab Switching & Standard Updates
+    const tabStandards = {
+      'oximetry': 'EN ISO 80601-2-61:2019 · Annex GG (Motion & Low Perfusion Test Protocol)',
+      'aerosol': 'EN 13544-1:2007+A1 · ISO 27427:2013 (Medical Nebulizer Systems)',
+      'metallurgy': 'ASTM F899-20 · ISO 17664:2021 (Surgical Instrument Steels & Cleaning Protocol)'
+    };
+
+    const stdFooterLabel = document.getElementById('rnd-console-active-std');
+
     elements.rndTabs.forEach(tab => {
       tab.addEventListener('click', () => {
         const targetTab = tab.getAttribute('data-rnd-tab');
         if (!targetTab) return;
+        currentActiveTab = targetTab;
 
         elements.rndTabs.forEach(t => {
           const isActive = t === tab;
@@ -629,10 +640,21 @@
             panel.setAttribute('hidden', 'true');
           }
         });
+
+        if (stdFooterLabel && tabStandards[targetTab]) {
+          stdFooterLabel.textContent = tabStandards[targetTab];
+        }
+
+        // Manage continuous PPG loop
+        if (targetTab === 'oximetry') {
+          startPpgAnimation();
+        } else {
+          stopPpgAnimation();
+        }
       });
     });
 
-    // 2. Optical Pulse Oximetry Simulator
+    // 2. Optical Pulse Oximetry Telemetry Oscilloscope (Continuous Live 60FPS)
     const oxPiSlider = document.getElementById('rnd-ox-pi');
     const oxPiVal = document.getElementById('rnd-ox-pi-val');
     const oxFilterToggle = document.getElementById('rnd-ox-filter');
@@ -641,7 +663,17 @@
     const oxSnrVal = document.getElementById('rnd-ox-snr');
     const oxSnrStatus = document.getElementById('rnd-ox-snr-status');
     const oxWaveStatus = document.getElementById('rnd-ox-wave-status');
-    const oxWavePath = document.getElementById('rnd-wave-path');
+    const cardiacLed = document.getElementById('rnd-cardiac-led');
+    const bpmReadout = document.getElementById('rnd-bpm-readout');
+    const dspModeLabel = document.getElementById('rnd-dsp-mode-label');
+    const ppgCanvas = document.getElementById('rnd-ppg-canvas');
+
+    let ppgCtx = ppgCanvas ? ppgCanvas.getContext('2d') : null;
+    let ppgAnimationId = null;
+    let ppgPhase = 0;
+    let lastAnimTime = 0;
+    let lastBeatFlash = 0;
+    let bpmPulseBase = 72;
 
     function updateOximetrySimulation() {
       if (!oxPiSlider) return;
@@ -650,55 +682,176 @@
 
       if (oxPiVal) oxPiVal.textContent = `${pi.toFixed(2)}%`;
 
-      // Calculate accuracy
-      let acc;
-      if (isFilterOn) {
-        acc = Math.max(1.1, Math.min(3.2, 1.1 + (0.12 / pi))).toFixed(1);
-      } else {
-        acc = Math.min(6.5, 2.6 + (0.8 / pi)).toFixed(1);
+      // Mathematical Model: EN ISO 80601-2-61 Arms and SNR
+      const tFactor = 1.8 / Math.sqrt(Math.max(pi, 0.05));
+      const arms = isFilterOn ? Math.max(0.9, tFactor * 0.55) : Math.max(1.4, tFactor + 0.8);
+      const snr = Math.max(6.0, Math.min(38.0, 10 * Math.log10(pi) + (isFilterOn ? 18 : 6) + 12));
+
+      if (oxAccVal) oxAccVal.textContent = `±${arms.toFixed(1)}`;
+      if (oxSnrVal) oxSnrVal.textContent = snr.toFixed(1);
+
+      if (dspModeLabel) {
+        dspModeLabel.textContent = isFilterOn ? 'DSP ENGINE: ACTIVE (ANTI-MOTION)' : 'DSP ENGINE: BYPASSED (RAW SENSOR NOISE)';
+        dspModeLabel.style.color = isFilterOn ? 'var(--color-pale-mint)' : '#EF4444';
       }
-      if (oxAccVal) oxAccVal.textContent = `±${acc}`;
 
-      // Calculate SNR
-      const baseSnr = 16 + (Math.log10(Math.max(0.05, pi)) * 9);
-      const snr = Math.max(8.5, Math.min(32.0, isFilterOn ? baseSnr + 6 : baseSnr)).toFixed(1);
-      if (oxSnrVal) oxSnrVal.textContent = snr;
-
-      // Statuses & Waveform
-      if (pi >= 1.2 && isFilterOn) {
-        if (oxAccStatus) oxAccStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--green"></span> ISO 80601-2-61 Conforming';
+      // ISO Conformity Classification
+      if (arms <= 2.0 && isFilterOn) {
+        if (oxAccStatus) oxAccStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--green"></span> Conforming (≤ 2.0%)';
         if (oxSnrStatus) oxSnrStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--green"></span> Robust Telemetry';
         if (oxWaveStatus) {
           oxWaveStatus.textContent = 'PULSATILE OPTIMAL';
           oxWaveStatus.style.color = 'var(--color-pale-mint)';
         }
-        if (oxWavePath) {
-          oxWavePath.setAttribute('d', 'M 0,30 Q 15,30 25,10 Q 35,2 45,34 Q 55,22 65,30 Q 80,30 90,30 Q 105,30 115,10 Q 125,2 135,34 Q 145,22 155,30 Q 170,30 180,30 Q 195,30 205,10 Q 215,2 225,34 Q 235,22 245,30 Q 260,30 270,30 Q 285,30 295,10 Q 305,2 315,34 Q 325,22 335,30 Q 350,30 360,30 Q 375,30 385,10 Q 395,2 400,34');
-          oxWavePath.style.stroke = 'var(--color-pale-mint)';
-        }
-      } else if (pi >= 0.3) {
-        if (oxAccStatus) oxAccStatus.innerHTML = `<span class="status-indicator-dot status-indicator-dot--amber"></span> ${isFilterOn ? 'Compensated' : 'Elevated Variance'}`;
+      } else if (arms <= 2.8) {
+        if (oxAccStatus) oxAccStatus.innerHTML = `<span class="status-indicator-dot status-indicator-dot--amber"></span> ${isFilterOn ? 'Marginal Envelope' : 'Elevated Variance'}`;
         if (oxSnrStatus) oxSnrStatus.innerHTML = `<span class="status-indicator-dot status-indicator-dot--amber"></span> ${isFilterOn ? 'Filtered Stable' : 'Marginal Noise'}`;
         if (oxWaveStatus) {
           oxWaveStatus.textContent = 'MODERATE ATTENUATION';
           oxWaveStatus.style.color = '#FBBF24';
         }
-        if (oxWavePath) {
-          oxWavePath.setAttribute('d', 'M 0,30 Q 15,30 25,18 Q 35,12 45,32 Q 55,26 65,30 Q 80,30 90,30 Q 105,30 115,18 Q 125,12 135,32 Q 145,26 155,30 Q 170,30 180,30 Q 195,30 205,18 Q 215,12 225,32 Q 235,26 245,30 Q 260,30 270,30 Q 285,30 295,18 Q 305,12 315,32 Q 325,26 335,30 Q 350,30 360,30 Q 375,30 385,18 Q 395,12 400,32');
-          oxWavePath.style.stroke = '#FBBF24';
-        }
       } else {
-        if (oxAccStatus) oxAccStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--red"></span> Shock-State Boundary';
-        if (oxSnrStatus) oxSnrStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--red"></span> Weak Arterial Pulse';
+        if (oxAccStatus) oxAccStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--red"></span> Non-Conformant (> 2.8%)';
+        if (oxSnrStatus) oxSnrStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--red"></span> Critical Motion Artifact';
         if (oxWaveStatus) {
           oxWaveStatus.textContent = 'CRITICAL LOW PERFUSION';
           oxWaveStatus.style.color = 'var(--color-alert-red)';
         }
-        if (oxWavePath) {
-          oxWavePath.setAttribute('d', 'M 0,30 Q 20,30 30,26 Q 40,24 50,31 Q 60,29 70,30 Q 90,30 110,30 Q 120,26 Q 130,24 140,31 Q 150,29 160,30 Q 180,30 200,30 Q 210,26 Q 220,24 230,31 Q 240,29 250,30 Q 270,30 290,30 Q 300,26 Q 310,24 320,31 Q 330,29 340,30 Q 360,30 380,30 Q 390,26 400,31');
-          oxWavePath.style.stroke = 'var(--color-alert-red)';
+      }
+    }
+
+    function renderContinuousPpg(timestamp) {
+      if (!ppgCtx || !ppgCanvas) return;
+      if (!lastAnimTime) lastAnimTime = timestamp;
+      const dt = Math.min((timestamp - lastAnimTime) / 1000, 0.1);
+      lastAnimTime = timestamp;
+
+      const pi = oxPiSlider ? parseFloat(oxPiSlider.value) : 1.8;
+      const isFilterOn = oxFilterToggle ? oxFilterToggle.checked : true;
+
+      // Pulse rate speed: 72 BPM = 1.2 Hz -> phase advancement rate
+      const beatFrequency = 1.2;
+      ppgPhase += dt * beatFrequency * Math.PI * 2;
+
+      // Trigger cardiac flash on systolic peak
+      const phaseMod = ppgPhase % (Math.PI * 2);
+      if (phaseMod < 0.35 && (timestamp - lastBeatFlash) > 600) {
+        lastBeatFlash = timestamp;
+        if (cardiacLed) {
+          cardiacLed.classList.add('is-systole');
+          setTimeout(() => cardiacLed.classList.remove('is-systole'), 140);
+        }
+        if (bpmReadout) {
+          const jitter = Math.floor(Math.sin(timestamp * 0.002) * 2);
+          bpmReadout.textContent = `${bpmPulseBase + jitter} BPM`;
         }
       }
+
+      const w = ppgCanvas.width;
+      const h = ppgCanvas.height;
+
+      // 1. Clear with deep hospital monitor canvas background
+      ppgCtx.fillStyle = '#061118';
+      ppgCtx.fillRect(0, 0, w, h);
+
+      // 2. Draw subtle clinical oscilloscope gridlines
+      ppgCtx.strokeStyle = 'rgba(143, 187, 199, 0.08)';
+      ppgCtx.lineWidth = 1;
+      ppgCtx.beginPath();
+      for (let y = 20; y < h; y += 22) {
+        ppgCtx.moveTo(0, y);
+        ppgCtx.lineTo(w, y);
+      }
+      for (let x = 40; x < w; x += 50) {
+        ppgCtx.moveTo(x, 0);
+        ppgCtx.lineTo(x, h);
+      }
+      ppgCtx.stroke();
+
+      // 3. Synthesize physiological photoplethysmogram
+      const ampScale = Math.min(1.0, 0.22 + 0.65 * (Math.log10(pi / 0.05 + 1) / Math.log10(200)));
+      const noiseAmp = isFilterOn ? 0.02 : (0.18 + (1 - Math.min(1, pi / 2.5)) * 0.15);
+
+      const points = [];
+      const numSteps = 240;
+      const cyclesAcross = 3.2;
+
+      for (let i = 0; i <= numSteps; i++) {
+        const x = (i / numSteps) * w;
+        const theta = ((i / numSteps) * cyclesAcross * Math.PI * 2 - ppgPhase) % (Math.PI * 2);
+        const normTheta = (theta + Math.PI * 2) % (Math.PI * 2);
+
+        const systolic = Math.exp(-Math.pow((normTheta - 0.9) / 0.32, 2)) * 1.0;
+        const dicrotic = Math.exp(-Math.pow((normTheta - 2.05) / 0.48, 2)) * 0.34;
+        let val = 0.16 + 0.10 * Math.sin(normTheta) + (systolic + dicrotic) * ampScale;
+
+        if (!isFilterOn || pi < 0.2) {
+          const pseudoNoise = (Math.sin(i * 12.9898 + timestamp * 0.01) * 43758.5453) % 1;
+          val += (pseudoNoise - 0.5) * noiseAmp;
+        }
+
+        const y = h - (val * h * 0.74 + h * 0.12);
+        points.push({ x, y });
+      }
+
+      // 4. Fill gradient under waveform
+      const grad = ppgCtx.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, 'rgba(201, 234, 228, 0.35)');
+      grad.addColorStop(0.6, 'rgba(143, 187, 199, 0.12)');
+      grad.addColorStop(1, 'rgba(6, 17, 24, 0)');
+
+      ppgCtx.beginPath();
+      ppgCtx.moveTo(0, h);
+      points.forEach((pt, idx) => {
+        if (idx === 0) ppgCtx.lineTo(pt.x, pt.y);
+        else ppgCtx.lineTo(pt.x, pt.y);
+      });
+      ppgCtx.lineTo(w, h);
+      ppgCtx.closePath();
+      ppgCtx.fillStyle = grad;
+      ppgCtx.fill();
+
+      // 5. Stroke glowing wave trace
+      ppgCtx.beginPath();
+      points.forEach((pt, idx) => {
+        if (idx === 0) ppgCtx.moveTo(pt.x, pt.y);
+        else ppgCtx.lineTo(pt.x, pt.y);
+      });
+      ppgCtx.strokeStyle = (pi < 0.2 && !isFilterOn) ? '#EF4444' : '#C9EAE4';
+      ppgCtx.lineWidth = 1.8;
+      ppgCtx.shadowColor = (pi < 0.2 && !isFilterOn) ? 'rgba(239, 68, 68, 0.8)' : 'rgba(201, 234, 228, 0.8)';
+      ppgCtx.shadowBlur = 6;
+      ppgCtx.stroke();
+      ppgCtx.shadowBlur = 0;
+
+      ppgAnimationId = requestAnimationFrame(renderContinuousPpg);
+    }
+
+    function startPpgAnimation() {
+      if (!ppgAnimationId) {
+        lastAnimTime = 0;
+        ppgAnimationId = requestAnimationFrame(renderContinuousPpg);
+      }
+    }
+
+    function stopPpgAnimation() {
+      if (ppgAnimationId) {
+        cancelAnimationFrame(ppgAnimationId);
+        ppgAnimationId = null;
+      }
+    }
+
+    // Auto-pause when R&D Bench is scrolled out of viewport
+    const rndSection = document.getElementById('rnd-bench');
+    if ('IntersectionObserver' in window && rndSection) {
+      const benchVisibilityObserver = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting && currentActiveTab === 'oximetry') {
+          startPpgAnimation();
+        } else {
+          stopPpgAnimation();
+        }
+      }, { threshold: 0.1 });
+      benchVisibilityObserver.observe(rndSection);
     }
 
     if (oxPiSlider) oxPiSlider.addEventListener('input', updateOximetrySimulation);
@@ -707,54 +860,80 @@
     // 3. Aerosol Droplet Dynamics Simulator
     const aeroMmadSlider = document.getElementById('rnd-aero-mmad');
     const aeroMmadVal = document.getElementById('rnd-aero-mmad-val');
-    const aeroMeshToggle = document.getElementById('rnd-aero-mesh');
+    const deliveryBtns = document.querySelectorAll('.rnd-delivery-btn');
     const aeroAlvVal = document.getElementById('rnd-aero-alveolar');
     const aeroOralVal = document.getElementById('rnd-aero-oral');
     const aeroTargetStatus = document.getElementById('rnd-aero-target-status');
-    const meterAlv = document.getElementById('meter-alv');
-    const meterBronch = document.getElementById('meter-bronch');
-    const meterLoss = document.getElementById('meter-loss');
+    const barAlv = document.getElementById('bar-alv');
+    const barImpaction = document.getElementById('bar-impaction');
+    const barLoss = document.getElementById('bar-loss');
+    const pctAlv = document.getElementById('rnd-pct-alv');
+    const pctImpaction = document.getElementById('rnd-pct-impaction');
+    const pctLoss = document.getElementById('rnd-pct-loss');
+
+    let isMeshDelivery = true;
 
     function updateAerosolSimulation() {
       if (!aeroMmadSlider) return;
       const mmad = parseFloat(aeroMmadSlider.value);
-      const isMesh = aeroMeshToggle ? aeroMeshToggle.checked : true;
 
       if (aeroMmadVal) aeroMmadVal.textContent = `${mmad.toFixed(1)} µm`;
 
-      // Calculate deposition fractions based on physiological lung impact models
-      const peakDeviation = Math.abs(mmad - 3.0);
-      let alv = Math.round(Math.max(12, (isMesh ? 72 : 48) - (peakDeviation * 12)));
-      let loss = Math.round(Math.min(78, (mmad > 3.5 ? Math.pow(mmad - 2.5, 2) * (isMesh ? 4.5 : 7.2) + 12 : 10)));
-      if (alv + loss > 92) alv = 92 - loss;
-      const bronch = Math.max(6, 100 - alv - loss);
+      // Log-normal aerosol deposition model (EN 13544-1)
+      const center = isMeshDelivery ? 3.0 : 4.5;
+      const spread = isMeshDelivery ? 1.8 : 2.4;
+      const alv = Math.round((isMeshDelivery ? 92 : 70) * Math.exp(-Math.pow((mmad - center) / spread, 2)));
+      const loss = isMeshDelivery ? 7 : 14;
+      const impaction = Math.max(0, 100 - alv - loss);
+      const isConformant = alv >= 50;
 
       if (aeroAlvVal) aeroAlvVal.textContent = alv;
-      if (aeroOralVal) aeroOralVal.textContent = loss;
+      if (aeroOralVal) aeroOralVal.textContent = impaction;
+      if (pctAlv) pctAlv.textContent = `${alv}%`;
+      if (pctImpaction) pctImpaction.textContent = `${impaction}%`;
+      if (pctLoss) pctLoss.textContent = `${loss}%`;
 
-      if (meterAlv) meterAlv.style.width = `${alv}%`;
-      if (meterBronch) meterBronch.style.width = `${bronch}%`;
-      if (meterLoss) meterLoss.style.width = `${loss}%`;
+      if (barAlv) barAlv.style.width = `${alv}%`;
+      if (barImpaction) barImpaction.style.width = `${impaction}%`;
+      if (barLoss) barLoss.style.width = `${loss}%`;
 
       if (aeroTargetStatus) {
-        if (alv >= 55) {
-          aeroTargetStatus.textContent = 'OPTIMAL ALVEOLAR REACH';
+        if (isConformant) {
+          aeroTargetStatus.textContent = 'EN 13544-1 CONFORMING (ALVEOLAR REACH ≥ 50%)';
           aeroTargetStatus.style.color = 'var(--color-pale-mint)';
         } else if (mmad > 4.5) {
-          aeroTargetStatus.textContent = 'HIGH OROPHARYNGEAL IMPACTION';
+          aeroTargetStatus.textContent = 'NON-CONFORMANT: EXCESSIVE THROAT IMPACTION';
           aeroTargetStatus.style.color = 'var(--color-alert-red)';
         } else {
-          aeroTargetStatus.textContent = 'INTERMEDIATE BRONCHIAL';
+          aeroTargetStatus.textContent = 'SUB-MICRON EXPIRATORY LOSS';
           aeroTargetStatus.style.color = '#FBBF24';
         }
       }
     }
 
+    deliveryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        deliveryBtns.forEach(b => {
+          b.classList.remove('active', 'btn--primary');
+          b.classList.add('btn--dark-outline');
+        });
+        btn.classList.add('active', 'btn--primary');
+        btn.classList.remove('btn--dark-outline');
+        isMeshDelivery = btn.getAttribute('data-delivery') === 'mesh';
+        updateAerosolSimulation();
+      });
+    });
+
     if (aeroMmadSlider) aeroMmadSlider.addEventListener('input', updateAerosolSimulation);
-    if (aeroMeshToggle) aeroMeshToggle.addEventListener('change', updateAerosolSimulation);
 
     // 4. Metallurgy Autoclave Passivation Simulator
-    let selectedAlloy = '316L';
+    const alloyMetadata = {
+      '316L': { name: 'Surgical 316L Stainless', pren0: 26.2, ra0: 0.40, decay: 0.50, raDelta: 0.12 },
+      '304': { name: 'General 304 Clinic Stainless', pren0: 18.0, ra0: 0.60, decay: 4.00, raDelta: 0.50 },
+      'Brass': { name: 'Medical Chrome Brass', pren0: 6.0, ra0: 0.90, decay: 8.00, raDelta: 1.10 }
+    };
+
+    let selectedAlloyKey = '316L';
     const alloyBtns = document.querySelectorAll('.rnd-alloy-btn');
     const cyclesSlider = document.getElementById('rnd-metal-cycles');
     const cyclesVal = document.getElementById('rnd-metal-cycles-val');
@@ -763,42 +942,50 @@
     const raVal = document.getElementById('rnd-metal-ra');
     const raStatus = document.getElementById('rnd-metal-ra-status');
     const metalSummary = document.getElementById('rnd-metal-summary');
+    const prenBarFill = document.getElementById('rnd-pren-bar-fill');
 
     function updateMetallurgySimulation() {
       if (!cyclesSlider) return;
       const cycles = parseInt(cyclesSlider.value, 10);
       if (cyclesVal) cyclesVal.textContent = `${cycles} Cycles`;
 
-      if (selectedAlloy === '316L') {
-        if (prenVal) prenVal.textContent = '24.5';
-        if (prenStatus) prenStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--green"></span> 2.5% Molybdenum Passivated';
-        const ra = (0.18 + (cycles / 1000) * 0.10).toFixed(2);
-        if (raVal) raVal.textContent = ra;
-        if (raStatus) raStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--green"></span> Biofilm Resistant';
-        if (metalSummary) {
-          metalSummary.textContent = 'UNRESTRICTED CSSD STEAM (134°C)';
-          metalSummary.style.color = 'var(--color-pale-mint)';
-        }
-      } else if (selectedAlloy === '304') {
-        if (prenVal) prenVal.textContent = '19.2';
-        if (prenStatus) prenStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--amber"></span> Standard Austenitic';
-        const ra = (0.24 + (cycles / 1000) * 0.32).toFixed(2);
-        if (raVal) raVal.textContent = ra;
-        if (raStatus) raStatus.innerHTML = cycles > 400 
-          ? '<span class="status-indicator-dot status-indicator-dot--amber"></span> Surface Micro-Pitting Risk'
-          : '<span class="status-indicator-dot status-indicator-dot--green"></span> Stable Passivation';
-        if (metalSummary) {
-          metalSummary.textContent = cycles > 500 ? 'MONITOR FOR MICRO-OXIDATION' : 'PERMITTED FOR ROUTINE INSTRUMENTATION';
-          metalSummary.style.color = cycles > 500 ? '#FBBF24' : 'var(--color-pale-mint)';
-        }
+      const alloy = alloyMetadata[selectedAlloyKey];
+      const pren = Math.max(0, alloy.pren0 - (cycles / 1500) * alloy.decay);
+      const ra = alloy.ra0 + (cycles / 1500) * alloy.raDelta;
+      const isConformant = pren >= 24.0;
+      const cssdClearance = isConformant && ra < 0.80;
+
+      if (prenVal) prenVal.textContent = pren.toFixed(1);
+      if (raVal) raVal.textContent = ra.toFixed(2);
+
+      // PREN gauge bar percentage (0 to 30 scale)
+      if (prenBarFill) {
+        const barPct = Math.min(100, Math.max(0, (pren / 30) * 100));
+        prenBarFill.style.width = `${barPct}%`;
+        prenBarFill.classList.toggle('is-fail', !isConformant);
+      }
+
+      if (isConformant) {
+        if (prenStatus) prenStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--green"></span> Passivation Layer Intact (≥ 24)';
       } else {
-        // Brass
-        if (prenVal) prenVal.textContent = 'N/A';
-        if (prenStatus) prenStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--red"></span> Non-Autoclavable Alloy';
-        if (raVal) raVal.textContent = '0.85+';
-        if (raStatus) raStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--red"></span> Thermal Coating Hazard';
-        if (metalSummary) {
-          metalSummary.textContent = 'CONTRAINDICATED FOR STEAM AUTOCLAVING';
+        if (prenStatus) prenStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--red"></span> Micro-Pitting Susceptible (< 24)';
+      }
+
+      if (ra < 0.80) {
+        if (raStatus) raStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--green"></span> Biofilm Resistant (< 0.80 µm)';
+      } else {
+        if (raStatus) raStatus.innerHTML = '<span class="status-indicator-dot status-indicator-dot--red"></span> Rough Surface (Biofilm Risk)';
+      }
+
+      if (metalSummary) {
+        if (cssdClearance) {
+          metalSummary.textContent = 'ASTM F899 PASS: UNRESTRICTED 134°C CSSD STEAM';
+          metalSummary.style.color = 'var(--color-pale-mint)';
+        } else if (isConformant) {
+          metalSummary.textContent = 'SURFACE REPASSIVATION RECOMMENDED';
+          metalSummary.style.color = '#FBBF24';
+        } else {
+          metalSummary.textContent = 'CONTRAINDICATED: RAPID OXIDATION & PITTING';
           metalSummary.style.color = 'var(--color-alert-red)';
         }
       }
@@ -812,12 +999,44 @@
         });
         btn.classList.add('active', 'btn--primary');
         btn.classList.remove('btn--dark-outline');
-        selectedAlloy = btn.getAttribute('data-alloy');
+        selectedAlloyKey = btn.getAttribute('data-alloy');
         updateMetallurgySimulation();
       });
     });
 
     if (cyclesSlider) cyclesSlider.addEventListener('input', updateMetallurgySimulation);
+
+    // 5. Clinical Preset Buttons
+    const presetBtns = document.querySelectorAll('.rnd-preset-btn');
+    presetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        presetBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const preset = btn.getAttribute('data-preset');
+        if (preset === 'shock') {
+          if (oxPiSlider) oxPiSlider.value = '0.15';
+          if (oxFilterToggle) oxFilterToggle.checked = true;
+        } else if (preset === 'standard') {
+          if (oxPiSlider) oxPiSlider.value = '1.80';
+          if (oxFilterToggle) oxFilterToggle.checked = true;
+        } else if (preset === 'hyper') {
+          if (oxPiSlider) oxPiSlider.value = '6.50';
+          if (oxFilterToggle) oxFilterToggle.checked = true;
+        } else if (preset === 'motion') {
+          if (oxPiSlider) oxPiSlider.value = '1.20';
+          if (oxFilterToggle) oxFilterToggle.checked = false;
+        }
+
+        updateOximetrySimulation();
+      });
+    });
+
+    // Initial triggers
+    updateOximetrySimulation();
+    updateAerosolSimulation();
+    updateMetallurgySimulation();
+    startPpgAnimation();
   }
 
   function setupBentoFilters() {

@@ -254,9 +254,24 @@
           </button>
         </div>
 
-        <!-- R&D Console Card -->
+        <!-- R&D Console Card (Hardware-Lab Telemetry Simulator) -->
         <div class="rnd-console" data-reveal="fade-up">
           
+          <!-- Live Telemetry Topbar -->
+          <div class="rnd-console__topbar">
+            <div class="rnd-console__status">
+              <span class="rnd-live-pulse-dot" id="rnd-bench-status-led" aria-hidden="true"></span>
+              <span class="rnd-status-text">LIVE BENCH TELEMETRY ACTIVE · 60 FPS SAMPLING</span>
+            </div>
+            <div class="rnd-console__presets" id="rnd-presets-bar">
+              <span class="rnd-presets-label">QUICK TEST PRESETS:</span>
+              <button type="button" class="rnd-preset-btn" data-preset="shock">Shock (0.15% PI)</button>
+              <button type="button" class="rnd-preset-btn active" data-preset="standard">ICU Std (1.8% PI)</button>
+              <button type="button" class="rnd-preset-btn" data-preset="hyper">Hyperemia (6.5% PI)</button>
+              <button type="button" class="rnd-preset-btn" data-preset="motion">Motion Artifact (DSP Off)</button>
+            </div>
+          </div>
+
           <!-- Module 1: Optical Oximetry Sensor Simulator -->
           <div class="rnd-panel active" id="panel-rnd-ox" role="tabpanel" aria-labelledby="tab-rnd-ox" data-rnd-panel="oximetry">
             
@@ -264,7 +279,7 @@
               <h3 class="rnd-panel__title">
                 <span>Photoplethysmography (PPG) Perfusion Stress Test</span>
               </h3>
-              <span class="rnd-panel__standard-tag">Benchmark: EN ISO 80601-2-61</span>
+              <span class="rnd-panel__standard-tag">Benchmark: EN ISO 80601-2-61:2019</span>
             </div>
 
             <!-- Controls Column -->
@@ -272,7 +287,7 @@
               <div class="rnd-slider-group">
                 <div class="rnd-slider-header">
                   <label for="rnd-ox-pi" class="rnd-slider-label">Peripheral Perfusion Index (PI)</label>
-                  <span class="rnd-slider-badge" id="rnd-ox-pi-val">1.8%</span>
+                  <span class="rnd-slider-badge" id="rnd-ox-pi-val">1.80%</span>
                 </div>
                 <input 
                   type="range" 
@@ -284,9 +299,11 @@
                   value="1.8" 
                   aria-label="Perfusion Index"
                 />
-                <span style="font-size: var(--text-xs); color: var(--color-enterprise-text-muted);">
-                  Clinical range: 0.05% (severe vasoconstriction/shock) to 10.0% (optimal perfusion).
-                </span>
+                <div class="rnd-scale-labels">
+                  <span>0.05% (Severe Shock)</span>
+                  <span>1.0% (Triage Cutoff)</span>
+                  <span>10.0% (Optimal)</span>
+                </div>
               </div>
 
               <div class="rnd-toggle-wrap">
@@ -311,20 +328,20 @@
             <div class="rnd-readout-col">
               <div class="rnd-metrics-grid">
                 <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">SpO2 RMS Accuracy</span>
+                  <span class="rnd-metric-label">SpO2 RMS Accuracy (Arms)</span>
                   <div class="rnd-metric-val">
-                    <span id="rnd-ox-accuracy">±1.4</span>
+                    <span id="rnd-ox-accuracy">±0.9</span>
                     <span class="rnd-metric-unit">%</span>
                   </div>
                   <span class="rnd-metric-status" id="rnd-ox-acc-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> ISO Conforming
+                    <span class="status-indicator-dot status-indicator-dot--green"></span> Conforming (≤ 2.0%)
                   </span>
                 </div>
 
                 <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">Signal-to-Noise Ratio</span>
+                  <span class="rnd-metric-label">Signal-to-Noise Ratio (SNR)</span>
                   <div class="rnd-metric-val">
-                    <span id="rnd-ox-snr">24.2</span>
+                    <span id="rnd-ox-snr">32.6</span>
                     <span class="rnd-metric-unit">dB</span>
                   </div>
                   <span class="rnd-metric-status" id="rnd-ox-snr-status">
@@ -333,15 +350,26 @@
                 </div>
               </div>
 
-              <!-- Simulated PPG Waveform Display -->
+              <!-- Continuous Sweeping PPG Oscilloscope Canvas -->
               <div class="rnd-wave-display">
                 <div class="rnd-wave-header">
-                  <span>LIVE PLETHYSMOGRAM SIMULATION</span>
-                  <span id="rnd-ox-wave-status" style="color: var(--color-pale-mint);">PULSATILE OPTIMAL</span>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="rnd-pulse-blip" id="rnd-cardiac-led" aria-hidden="true"></span>
+                    <span style="letter-spacing: 0.1em;">LIVE ARTERIAL OSCILLOSCOPE</span>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span id="rnd-bpm-readout" style="font-family: var(--font-mono); font-size: 11px; color: var(--color-warm-ivory); font-weight: 600;">72 BPM</span>
+                    <span id="rnd-ox-wave-status" style="color: var(--color-pale-mint); font-family: var(--font-mono); font-size: 10px;">PULSATILE OPTIMAL</span>
+                  </div>
                 </div>
-                <svg class="rnd-wave-svg" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
-                  <path id="rnd-wave-path" d="M 0,30 Q 15,30 25,12 Q 35,4 45,34 Q 55,24 65,30 Q 80,30 90,30 Q 105,30 115,12 Q 125,4 135,34 Q 145,24 155,30 Q 170,30 180,30 Q 195,30 205,12 Q 215,4 225,34 Q 235,24 245,30 Q 260,30 270,30 Q 285,30 295,12 Q 305,4 315,34 Q 325,24 335,30 Q 350,30 360,30 Q 375,30 385,12 Q 395,4 400,34" />
-                </svg>
+                <div class="rnd-canvas-container">
+                  <canvas id="rnd-ppg-canvas" width="600" height="110" aria-label="Simulated Arterial PPG Telemetry Waveform"></canvas>
+                </div>
+                <div class="rnd-oscilloscope-meta">
+                  <span>SWEEP: 25 mm/s</span>
+                  <span id="rnd-dsp-mode-label">DSP ENGINE: ACTIVE (ANTI-MOTION)</span>
+                  <span>CAL: 1.0 mV/div</span>
+                </div>
               </div>
             </div>
 
@@ -354,7 +382,7 @@
               <h3 class="rnd-panel__title">
                 <span>Aerosolized Particle Aerodynamic Diameter &amp; Deposition</span>
               </h3>
-              <span class="rnd-panel__standard-tag">Benchmark: ISO 27427</span>
+              <span class="rnd-panel__standard-tag">Benchmark: EN 13544-1:2007+A1 · ISO 27427</span>
             </div>
 
             <!-- Controls Column -->
@@ -362,38 +390,39 @@
               <div class="rnd-slider-group">
                 <div class="rnd-slider-header">
                   <label for="rnd-aero-mmad" class="rnd-slider-label">Droplet MMAD (Mass Median Aerodynamic Diameter)</label>
-                  <span class="rnd-slider-badge" id="rnd-aero-mmad-val">3.2 µm</span>
+                  <span class="rnd-slider-badge" id="rnd-aero-mmad-val">3.0 µm</span>
                 </div>
                 <input 
                   type="range" 
                   id="rnd-aero-mmad" 
                   class="rnd-range-input" 
-                  min="1.0" 
-                  max="7.5" 
+                  min="0.5" 
+                  max="8.0" 
                   step="0.1" 
-                  value="3.2" 
+                  value="3.0" 
                   aria-label="Droplet MMAD"
                 />
-                <span style="font-size: var(--text-xs); color: var(--color-enterprise-text-muted);">
-                  Target respirable fraction window: 2.0 µm to 4.0 µm for deep alveolar reach.
-                </span>
+                <div class="rnd-scale-labels">
+                  <span>0.5 µm (Sub-micron)</span>
+                  <span>Target: 2.5–3.5 µm</span>
+                  <span>8.0 µm (Upper Trachea)</span>
+                </div>
               </div>
 
-              <div class="rnd-toggle-wrap">
-                <div>
-                  <span class="rnd-toggle-label">Delivery Mechanism</span>
-                  <p style="font-size: var(--text-xs); color: var(--color-enterprise-text-muted); margin-top: 2px;">
-                    Vibrating Mesh (110 kHz) vs Pneumatic Compressor Jet.
-                  </p>
+              <div class="rnd-slider-group">
+                <span class="rnd-slider-label">Aerosol Generation Mechanism</span>
+                <div class="rnd-button-toggle-group">
+                  <button type="button" class="btn btn--sm btn--primary rnd-delivery-btn active" data-delivery="mesh">
+                    Vibrating Mesh (110 kHz)
+                  </button>
+                  <button type="button" class="btn btn--sm btn--dark-outline rnd-delivery-btn" data-delivery="jet">
+                    Pneumatic Compressor Jet
+                  </button>
                 </div>
-                <label class="rnd-switch">
-                  <input type="checkbox" id="rnd-aero-mesh" checked aria-label="Toggle ultrasonic mesh technology" />
-                  <span class="rnd-switch-slider"></span>
-                </label>
               </div>
 
               <div class="rnd-takeaway">
-                <strong>Biomedical Note:</strong> Droplets &gt; 5.0 µm deposit in the oral cavity without alveolar benefit, while vibrating mesh reduces residual medication loss to &lt; 0.2 mL.
+                <strong>Biomedical Note:</strong> Vibrating mesh piezo apertures concentrate output tightly within 2.5–3.5 µm, minimizing throat impaction and saving 85%+ of nebulized medication.
               </div>
             </div>
 
@@ -401,43 +430,65 @@
             <div class="rnd-readout-col">
               <div class="rnd-metrics-grid">
                 <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">Alveolar Deposition</span>
+                  <span class="rnd-metric-label">Alveolar Penetration (&lt;3.5 µm)</span>
                   <div class="rnd-metric-val">
-                    <span id="rnd-aero-alveolar">68</span>
+                    <span id="rnd-aero-alveolar">92</span>
                     <span class="rnd-metric-unit">%</span>
                   </div>
                   <span class="rnd-metric-status" id="rnd-aero-alv-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> High Therapeutic Yield
+                    <span class="status-indicator-dot status-indicator-dot--green"></span> Optimal Alveolar Reach
                   </span>
                 </div>
 
                 <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">Oropharyngeal Loss</span>
+                  <span class="rnd-metric-label">Upper-Airway Impaction Loss</span>
                   <div class="rnd-metric-val">
-                    <span id="rnd-aero-oral">14</span>
+                    <span id="rnd-aero-oral">1</span>
                     <span class="rnd-metric-unit">%</span>
                   </div>
                   <span class="rnd-metric-status" id="rnd-aero-oral-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> Minimal Throat Loss
+                    <span class="status-indicator-dot status-indicator-dot--green"></span> Minimal Pharyngeal Loss
                   </span>
                 </div>
               </div>
 
-              <!-- Segmented Deposition Meter -->
+              <!-- Segmented Deposition Meter with Progress Breakdown -->
               <div class="rnd-wave-display">
                 <div class="rnd-wave-header">
-                  <span>FRACTIONAL DEPOSITION BREAKDOWN</span>
-                  <span id="rnd-aero-target-status" style="color: var(--color-pale-mint);">OPTIMAL ALVEOLAR</span>
+                  <span>FRACTIONAL AERODYNAMIC DEPOSITION BREAKDOWN</span>
+                  <span id="rnd-aero-target-status" style="color: var(--color-pale-mint);">EN 13544-1 CONFORMING</span>
                 </div>
-                <div class="rnd-stacked-meter" aria-label="Deposition percentage meter">
-                  <div class="rnd-meter-segment rnd-meter-segment--alveolar" id="meter-alv" style="width: 68%;" title="Deep Alveolar"></div>
-                  <div class="rnd-meter-segment rnd-meter-segment--bronchial" id="meter-bronch" style="width: 18%;" title="Bronchial Trachea"></div>
-                  <div class="rnd-meter-segment rnd-meter-segment--loss" id="meter-loss" style="width: 14%;" title="Oropharyngeal Loss"></div>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--color-enterprise-text-muted); margin-top: 4px;">
-                  <span>■ Alveolar Target (Mint)</span>
-                  <span>■ Tracheobronchial (Blue)</span>
-                  <span>■ Oral Impaction Loss (Red)</span>
+                
+                <div class="rnd-deposition-bars">
+                  <div class="rnd-dep-row">
+                    <div class="rnd-dep-row__label">
+                      <span>Deep Alveolar Fraction (&lt; 3.5 µm)</span>
+                      <strong id="rnd-pct-alv">92%</strong>
+                    </div>
+                    <div class="rnd-dep-bar-track">
+                      <div class="rnd-dep-bar-fill rnd-dep-bar-fill--alveolar" id="bar-alv" style="width: 92%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="rnd-dep-row">
+                    <div class="rnd-dep-row__label">
+                      <span>Upper-Airway Impaction Loss</span>
+                      <strong id="rnd-pct-impaction">1%</strong>
+                    </div>
+                    <div class="rnd-dep-bar-track">
+                      <div class="rnd-dep-bar-fill rnd-dep-bar-fill--impaction" id="bar-impaction" style="width: 1%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="rnd-dep-row">
+                    <div class="rnd-dep-row__label">
+                      <span>Exhaled / Dead Space Loss</span>
+                      <strong id="rnd-pct-loss">7%</strong>
+                    </div>
+                    <div class="rnd-dep-bar-track">
+                      <div class="rnd-dep-bar-fill rnd-dep-bar-fill--loss" id="bar-loss" style="width: 7%;"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -451,16 +502,16 @@
               <h3 class="rnd-panel__title">
                 <span>134°C Steam Autoclave Degradation &amp; PREN Matrix</span>
               </h3>
-              <span class="rnd-panel__standard-tag">Benchmark: EN 285 &amp; ISO 17665</span>
+              <span class="rnd-panel__standard-tag">Benchmark: ASTM F899-20 · ISO 17664:2021</span>
             </div>
 
             <!-- Controls Column -->
             <div class="rnd-controls-col">
               <div class="rnd-slider-group">
                 <div class="rnd-slider-header">
-                  <span class="rnd-slider-label">Alloy Selection</span>
+                  <span class="rnd-slider-label">Alloy Metallurgy</span>
                 </div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <div class="rnd-button-toggle-group">
                   <button type="button" class="btn btn--sm btn--primary rnd-alloy-btn active" data-alloy="316L">
                     316L Surgical Stainless
                   </button>
@@ -468,7 +519,7 @@
                     304 Clinic Stainless
                   </button>
                   <button type="button" class="btn btn--sm btn--dark-outline rnd-alloy-btn" data-alloy="Brass">
-                    Chrome-Plated Brass
+                    Medical Chrome Brass
                   </button>
                 </div>
               </div>
@@ -482,16 +533,21 @@
                   type="range" 
                   id="rnd-metal-cycles" 
                   class="rnd-range-input" 
-                  min="10" 
-                  max="1000" 
+                  min="0" 
+                  max="1500" 
                   step="10" 
                   value="250" 
                   aria-label="Autoclave sterilization cycles"
                 />
+                <div class="rnd-scale-labels">
+                  <span>0 Cycles (Factory)</span>
+                  <span>500 Cycles (Hospital 1-Yr)</span>
+                  <span>1500 Cycles (Extreme Lifecycle)</span>
+                </div>
               </div>
 
               <div class="rnd-takeaway">
-                <strong>Biomedical Note:</strong> Zoe Vitals ZV-TRF-050 trays are deep-drawn from 316L molybdenum-stabilized alloy to resist micro-pitting and biofilm formation across 500+ cycles.
+                <strong>Biomedical Note:</strong> Zoe Vitals ZV-TRF-050 trays are engineered from 316L molybdenum-stabilized alloy (PREN ≥ 26.2) to prevent micro-pitting across 1,000+ steam cycles.
               </div>
             </div>
 
@@ -501,37 +557,57 @@
                 <div class="rnd-metric-card">
                   <span class="rnd-metric-label">Pitting Resistance (PREN)</span>
                   <div class="rnd-metric-val">
-                    <span id="rnd-metal-pren">24.5</span>
+                    <span id="rnd-metal-pren">26.1</span>
                     <span class="rnd-metric-unit">Score</span>
                   </div>
                   <span class="rnd-metric-status" id="rnd-metal-pren-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> High Passivation
+                    <span class="status-indicator-dot status-indicator-dot--green"></span> High Passivation (≥ 24)
                   </span>
                 </div>
 
                 <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">Estimated Roughness (Ra)</span>
+                  <span class="rnd-metric-label">Surface Roughness (Ra)</span>
                   <div class="rnd-metric-val">
-                    <span id="rnd-metal-ra">0.22</span>
+                    <span id="rnd-metal-ra">0.42</span>
                     <span class="rnd-metric-unit">µm</span>
                   </div>
                   <span class="rnd-metric-status" id="rnd-metal-ra-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> Biofilm Resistant
+                    <span class="status-indicator-dot status-indicator-dot--green"></span> Biofilm Resistant (&lt; 0.8 µm)
                   </span>
                 </div>
               </div>
 
+              <!-- PREN Gauge Display -->
               <div class="rnd-wave-display">
                 <div class="rnd-wave-header">
-                  <span>CSSD PROTOCOL COMPATIBILITY</span>
-                  <span id="rnd-metal-summary" style="color: var(--color-pale-mint);">UNRESTRICTED AUTOCLAVE</span>
+                  <span>PREN PASSIVATION PROFILE (%Cr + 3.3·%Mo + 16·%N)</span>
+                  <span id="rnd-metal-summary" style="color: var(--color-pale-mint);">UNRESTRICTED CSSD PASS</span>
                 </div>
-                <p style="font-size: var(--text-xs); color: var(--color-enterprise-text-muted); line-height: var(--line-height-normal); margin-top: 4px;">
-                  Surface passivation layer maintains chromium-oxide integrity. Suitable for high-temperature porous-load steam autoclaving and enzymatic neutral detergent baths.
+                <div class="rnd-pren-meter-wrap">
+                  <div class="rnd-pren-bar">
+                    <div class="rnd-pren-fill" id="rnd-pren-bar-fill" style="width: 87%;"></div>
+                    <div class="rnd-pren-threshold-line" title="ASTM F899 Minimum Pass Threshold (24.0)">
+                      <span>Pass 24.0</span>
+                    </div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9px; color: var(--color-enterprise-text-muted); margin-top: 5px;">
+                    <span>0 (Corrosion Prone)</span>
+                    <span style="color: var(--color-pale-mint);">ASTM Pass Threshold: 24.0</span>
+                    <span>30 (Super-Austenitic)</span>
+                  </div>
+                </div>
+                <p style="font-size: var(--text-xs); color: var(--color-enterprise-text-muted); line-height: 1.5; margin-top: 6px;">
+                  Passivation oxide layer integrity sustains sterilization without chemical breakdown. Suitable for high-temperature porous-load autoclave regimens.
                 </p>
               </div>
             </div>
 
+          </div>
+
+          <!-- Console Footer Bar -->
+          <div class="rnd-console__footer">
+            <span class="rnd-console__std-label" id="rnd-console-active-std">EN ISO 80601-2-61:2019 · Annex GG (Motion &amp; Low Perfusion Test Protocol)</span>
+            <span class="rnd-console__version-label">Zoe Vitals Hardware Verification Bench v2.4</span>
           </div>
 
         </div>
