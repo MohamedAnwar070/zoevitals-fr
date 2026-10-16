@@ -842,11 +842,6 @@ a:hover {
   border-radius: 3px;
 }
 
-/* Mobile Drawer Header (Hidden on Desktop) */
-.mobile-drawer-header {
-  display: none;
-}
-
 /* Mobile Toggle Hamburger Button (44x44px accessible touch target) */
 .mobile-toggle {
   display: none;
@@ -2779,60 +2774,6 @@ body.nav-drawer-open .site-header {
 @media (max-width: 860px) {
   .mobile-toggle {
     display: flex;
-  }
-
-  /* Mobile Drawer Header with Explicit Close Button */
-  .mobile-drawer-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding-bottom: 0.85rem;
-    margin-bottom: 0.5rem;
-    border-bottom: 1px solid var(--color-border-subtle);
-  }
-
-  .mobile-drawer-brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--color-medical-blue);
-    font-weight: 600;
-  }
-
-  .mobile-drawer-brand .symbol-box {
-    width: 12px;
-    height: 12px;
-    border: 1px solid var(--color-medical-blue);
-    position: relative;
-    display: inline-block;
-  }
-
-  .mobile-drawer-close-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background-color: var(--color-muted-blue-soft);
-    border: 1px solid var(--color-muted-blue-border);
-    color: var(--color-medical-blue-deep);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 7px 13px;
-    border-radius: var(--radius-xs);
-    cursor: pointer;
-    font-weight: 600;
-    transition: all var(--transition-fast);
-  }
-
-  .mobile-drawer-close-btn:hover {
-    background-color: var(--color-medical-blue);
-    color: #FFFDF0;
   }
 
   .header-nav {
