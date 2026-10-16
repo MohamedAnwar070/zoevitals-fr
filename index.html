@@ -48,33 +48,28 @@
         <span class="left-rail__tick"></span>
         <span class="left-rail__tooltip">Overview</span>
       </button>
-      <button type="button" class="left-rail__btn" data-section="rnd-bench" aria-label="02 R&amp;D Bench">
+      <button type="button" class="left-rail__btn" data-section="domains" aria-label="02 Domains">
         <span class="left-rail__num">02</span>
-        <span class="left-rail__tick"></span>
-        <span class="left-rail__tooltip">R&amp;D Bench</span>
-      </button>
-      <button type="button" class="left-rail__btn" data-section="domains" aria-label="03 Domains">
-        <span class="left-rail__num">03</span>
         <span class="left-rail__tick"></span>
         <span class="left-rail__tooltip">Domains</span>
       </button>
-      <button type="button" class="left-rail__btn" data-section="catalogue" aria-label="04 Catalogue">
-        <span class="left-rail__num">04</span>
+      <button type="button" class="left-rail__btn" data-section="catalogue" aria-label="03 Catalogue">
+        <span class="left-rail__num">03</span>
         <span class="left-rail__tick"></span>
         <span class="left-rail__tooltip">Catalogue</span>
       </button>
-      <button type="button" class="left-rail__btn" data-section="standards" aria-label="05 Standards">
-        <span class="left-rail__num">05</span>
+      <button type="button" class="left-rail__btn" data-section="standards" aria-label="04 Standards">
+        <span class="left-rail__num">04</span>
         <span class="left-rail__tick"></span>
         <span class="left-rail__tooltip">Standards</span>
       </button>
-      <button type="button" class="left-rail__btn" data-section="intelligence" aria-label="06 Intelligence">
-        <span class="left-rail__num">06</span>
+      <button type="button" class="left-rail__btn" data-section="intelligence" aria-label="05 Intelligence">
+        <span class="left-rail__num">05</span>
         <span class="left-rail__tick"></span>
         <span class="left-rail__tooltip">Intelligence</span>
       </button>
-      <button type="button" class="left-rail__btn" data-section="enquiry" aria-label="07 Procurement">
-        <span class="left-rail__num">07</span>
+      <button type="button" class="left-rail__btn" data-section="enquiry" aria-label="06 Procurement">
+        <span class="left-rail__num">06</span>
         <span class="left-rail__tick"></span>
         <span class="left-rail__tooltip">Procurement</span>
       </button>
@@ -100,9 +95,23 @@
 
       <!-- Primary Navigation -->
       <nav class="header-nav" id="primary-nav" aria-label="Main navigation">
+        <!-- Mobile Drawer Top Bar with Dedicated Close Button -->
+        <div class="mobile-drawer-header">
+          <div class="mobile-drawer-brand">
+            <span class="symbol-box"><span class="cross-v"></span><span class="cross-h"></span></span>
+            <span>Navigation</span>
+          </div>
+          <button type="button" class="mobile-drawer-close-btn" id="mobile-drawer-close" aria-label="Close navigation menu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            <span>Close</span>
+          </button>
+        </div>
+
         <ul class="nav-list">
           <li><a href="#hero" class="nav-link is-current">Overview</a></li>
-          <li><a href="#rnd-bench" class="nav-link">R&amp;D Bench</a></li>
           <li><a href="#domains" class="nav-link">Domains</a></li>
           <li><a href="#catalogue" class="nav-link">Catalogue</a></li>
           <li><a href="#standards" class="nav-link">Standards</a></li>
@@ -162,8 +171,8 @@
                 <span>Explore Verified Catalogue</span>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l10-10M7 7h10v10"/></svg>
               </a>
-              <a href="#rnd-bench" class="btn-hero-secondary">
-                <span>Launch R&amp;D Bench</span>
+              <a href="#domains" class="btn-hero-secondary">
+                <span>Clinical Sourcing Domains</span>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
               </a>
             </div>
@@ -221,409 +230,14 @@
     </section>
 
     <!-- ======================================================================
-         2. INTERACTIVE BIOMEDICAL R&D BENCH (Designeer-Inspired Console)
-         ====================================================================== -->
-    <section class="section section--rnd" id="rnd-bench">
-      <div class="container">
-        
-        <header class="section-header" data-reveal="fade-up">
-          <div class="section-eyebrow-row">
-            <span class="section-num">02</span>
-            <span class="section-line"></span>
-            <span class="section-eyebrow-text">Interactive R&amp;D Bench</span>
-          </div>
-          <h2 class="section-title">Simulate device tolerances against standard testing conditions.</h2>
-          <p class="section-lead">
-            A live hardware-lab console for hospital bio-engineers. Adjust the parameters and watch conformity against international standards recalculate in real time.
-          </p>
-        </header>
-
-        <!-- Segmented Tab Navigation -->
-        <div class="rnd-segmented-tabs" role="tablist" aria-label="R&D Simulation Modules" data-reveal="fade-up">
-          <button type="button" class="rnd-tab-btn active" role="tab" id="tab-rnd-ox" aria-selected="true" aria-controls="panel-rnd-ox" data-rnd-tab="oximetry">
-            <span class="rnd-tab-btn__indicator" aria-hidden="true"></span>
-            <span>01 Optical Pulse Oximetry (PI &amp; SNR)</span>
-          </button>
-          <button type="button" class="rnd-tab-btn" role="tab" id="tab-rnd-aero" aria-selected="false" aria-controls="panel-rnd-aero" data-rnd-tab="aerosol">
-            <span class="rnd-tab-btn__indicator" aria-hidden="true"></span>
-            <span>02 Micro-Mesh Aerosol Dynamics (MMAD)</span>
-          </button>
-          <button type="button" class="rnd-tab-btn" role="tab" id="tab-rnd-metal" aria-selected="false" aria-controls="panel-rnd-metal" data-rnd-tab="metallurgy">
-            <span class="rnd-tab-btn__indicator" aria-hidden="true"></span>
-            <span>03 Autoclave Alloy Passivation (PREN)</span>
-          </button>
-        </div>
-
-        <!-- R&D Console Card (Hardware-Lab Telemetry Simulator) -->
-        <div class="rnd-console" data-reveal="fade-up">
-          
-          <!-- Live Telemetry Topbar -->
-          <div class="rnd-console__topbar">
-            <div class="rnd-console__status">
-              <span class="rnd-live-pulse-dot" id="rnd-bench-status-led" aria-hidden="true"></span>
-              <span class="rnd-status-text">LIVE BENCH TELEMETRY ACTIVE · 60 FPS SAMPLING</span>
-            </div>
-            <div class="rnd-console__presets" id="rnd-presets-bar">
-              <span class="rnd-presets-label">QUICK TEST PRESETS:</span>
-              <button type="button" class="rnd-preset-btn" data-preset="shock">Shock (0.15% PI)</button>
-              <button type="button" class="rnd-preset-btn active" data-preset="standard">ICU Std (1.8% PI)</button>
-              <button type="button" class="rnd-preset-btn" data-preset="hyper">Hyperemia (6.5% PI)</button>
-              <button type="button" class="rnd-preset-btn" data-preset="motion">Motion Artifact (DSP Off)</button>
-            </div>
-          </div>
-
-          <!-- Module 1: Optical Oximetry Sensor Simulator -->
-          <div class="rnd-panel active" id="panel-rnd-ox" role="tabpanel" aria-labelledby="tab-rnd-ox" data-rnd-panel="oximetry">
-            
-            <div class="rnd-panel__header">
-              <h3 class="rnd-panel__title">
-                <span>Photoplethysmography (PPG) Perfusion Stress Test</span>
-              </h3>
-              <span class="rnd-panel__standard-tag">Benchmark: EN ISO 80601-2-61:2019</span>
-            </div>
-
-            <!-- Controls Column -->
-            <div class="rnd-controls-col">
-              <div class="rnd-slider-group">
-                <div class="rnd-slider-header">
-                  <label for="rnd-ox-pi" class="rnd-slider-label">Peripheral Perfusion Index (PI)</label>
-                  <span class="rnd-slider-badge" id="rnd-ox-pi-val">1.80%</span>
-                </div>
-                <input 
-                  type="range" 
-                  id="rnd-ox-pi" 
-                  class="rnd-range-input" 
-                  min="0.05" 
-                  max="10.0" 
-                  step="0.05" 
-                  value="1.8" 
-                  aria-label="Perfusion Index"
-                />
-                <div class="rnd-scale-labels">
-                  <span>0.05% (Severe Shock)</span>
-                  <span>1.0% (Triage Cutoff)</span>
-                  <span>10.0% (Optimal)</span>
-                </div>
-              </div>
-
-              <div class="rnd-toggle-wrap">
-                <div>
-                  <span class="rnd-toggle-label">Adaptive Motion Artifact DSP Filter</span>
-                  <p style="font-size: var(--text-xs); color: var(--color-enterprise-text-muted); margin-top: 2px;">
-                    Multi-wavelength digital signal noise suppression algorithm.
-                  </p>
-                </div>
-                <label class="rnd-switch">
-                  <input type="checkbox" id="rnd-ox-filter" checked aria-label="Toggle motion artifact filter" />
-                  <span class="rnd-switch-slider"></span>
-                </label>
-              </div>
-
-              <div class="rnd-takeaway">
-                <strong>Biomedical Note:</strong> Zoe Vitals ZV-OXM-201 and ZV-VTS-900 utilize dual 660nm/905nm calibrated emitters to isolate arterial pulsatile flow even below 0.2% PI.
-              </div>
-            </div>
-
-            <!-- Readout Column -->
-            <div class="rnd-readout-col">
-              <div class="rnd-metrics-grid">
-                <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">SpO2 RMS Accuracy (Arms)</span>
-                  <div class="rnd-metric-val">
-                    <span id="rnd-ox-accuracy">±0.9</span>
-                    <span class="rnd-metric-unit">%</span>
-                  </div>
-                  <span class="rnd-metric-status" id="rnd-ox-acc-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> Conforming (≤ 2.0%)
-                  </span>
-                </div>
-
-                <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">Signal-to-Noise Ratio (SNR)</span>
-                  <div class="rnd-metric-val">
-                    <span id="rnd-ox-snr">32.6</span>
-                    <span class="rnd-metric-unit">dB</span>
-                  </div>
-                  <span class="rnd-metric-status" id="rnd-ox-snr-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> Robust Telemetry
-                  </span>
-                </div>
-              </div>
-
-              <!-- Continuous Sweeping PPG Oscilloscope Canvas -->
-              <div class="rnd-wave-display">
-                <div class="rnd-wave-header">
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span class="rnd-pulse-blip" id="rnd-cardiac-led" aria-hidden="true"></span>
-                    <span style="letter-spacing: 0.1em;">LIVE ARTERIAL OSCILLOSCOPE</span>
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 10px;">
-                    <span id="rnd-bpm-readout" style="font-family: var(--font-mono); font-size: 11px; color: var(--color-warm-ivory); font-weight: 600;">72 BPM</span>
-                    <span id="rnd-ox-wave-status" style="color: var(--color-pale-mint); font-family: var(--font-mono); font-size: 10px;">PULSATILE OPTIMAL</span>
-                  </div>
-                </div>
-                <div class="rnd-canvas-container">
-                  <canvas id="rnd-ppg-canvas" width="600" height="110" aria-label="Simulated Arterial PPG Telemetry Waveform"></canvas>
-                </div>
-                <div class="rnd-oscilloscope-meta">
-                  <span>SWEEP: 25 mm/s</span>
-                  <span id="rnd-dsp-mode-label">DSP ENGINE: ACTIVE (ANTI-MOTION)</span>
-                  <span>CAL: 1.0 mV/div</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Module 2: Micro-Mesh Aerosol Simulator -->
-          <div class="rnd-panel" id="panel-rnd-aero" role="tabpanel" aria-labelledby="tab-rnd-aero" data-rnd-panel="aerosol" hidden>
-            
-            <div class="rnd-panel__header">
-              <h3 class="rnd-panel__title">
-                <span>Aerosolized Particle Aerodynamic Diameter &amp; Deposition</span>
-              </h3>
-              <span class="rnd-panel__standard-tag">Benchmark: EN 13544-1:2007+A1 · ISO 27427</span>
-            </div>
-
-            <!-- Controls Column -->
-            <div class="rnd-controls-col">
-              <div class="rnd-slider-group">
-                <div class="rnd-slider-header">
-                  <label for="rnd-aero-mmad" class="rnd-slider-label">Droplet MMAD (Mass Median Aerodynamic Diameter)</label>
-                  <span class="rnd-slider-badge" id="rnd-aero-mmad-val">3.0 µm</span>
-                </div>
-                <input 
-                  type="range" 
-                  id="rnd-aero-mmad" 
-                  class="rnd-range-input" 
-                  min="0.5" 
-                  max="8.0" 
-                  step="0.1" 
-                  value="3.0" 
-                  aria-label="Droplet MMAD"
-                />
-                <div class="rnd-scale-labels">
-                  <span>0.5 µm (Sub-micron)</span>
-                  <span>Target: 2.5–3.5 µm</span>
-                  <span>8.0 µm (Upper Trachea)</span>
-                </div>
-              </div>
-
-              <div class="rnd-slider-group">
-                <span class="rnd-slider-label">Aerosol Generation Mechanism</span>
-                <div class="rnd-button-toggle-group">
-                  <button type="button" class="btn btn--sm btn--primary rnd-delivery-btn active" data-delivery="mesh">
-                    Vibrating Mesh (110 kHz)
-                  </button>
-                  <button type="button" class="btn btn--sm btn--dark-outline rnd-delivery-btn" data-delivery="jet">
-                    Pneumatic Compressor Jet
-                  </button>
-                </div>
-              </div>
-
-              <div class="rnd-takeaway">
-                <strong>Biomedical Note:</strong> Vibrating mesh piezo apertures concentrate output tightly within 2.5–3.5 µm, minimizing throat impaction and saving 85%+ of nebulized medication.
-              </div>
-            </div>
-
-            <!-- Readout Column -->
-            <div class="rnd-readout-col">
-              <div class="rnd-metrics-grid">
-                <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">Alveolar Penetration (&lt;3.5 µm)</span>
-                  <div class="rnd-metric-val">
-                    <span id="rnd-aero-alveolar">92</span>
-                    <span class="rnd-metric-unit">%</span>
-                  </div>
-                  <span class="rnd-metric-status" id="rnd-aero-alv-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> Optimal Alveolar Reach
-                  </span>
-                </div>
-
-                <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">Upper-Airway Impaction Loss</span>
-                  <div class="rnd-metric-val">
-                    <span id="rnd-aero-oral">1</span>
-                    <span class="rnd-metric-unit">%</span>
-                  </div>
-                  <span class="rnd-metric-status" id="rnd-aero-oral-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> Minimal Pharyngeal Loss
-                  </span>
-                </div>
-              </div>
-
-              <!-- Segmented Deposition Meter with Progress Breakdown -->
-              <div class="rnd-wave-display">
-                <div class="rnd-wave-header">
-                  <span>FRACTIONAL AERODYNAMIC DEPOSITION BREAKDOWN</span>
-                  <span id="rnd-aero-target-status" style="color: var(--color-pale-mint);">EN 13544-1 CONFORMING</span>
-                </div>
-                
-                <div class="rnd-deposition-bars">
-                  <div class="rnd-dep-row">
-                    <div class="rnd-dep-row__label">
-                      <span>Deep Alveolar Fraction (&lt; 3.5 µm)</span>
-                      <strong id="rnd-pct-alv">92%</strong>
-                    </div>
-                    <div class="rnd-dep-bar-track">
-                      <div class="rnd-dep-bar-fill rnd-dep-bar-fill--alveolar" id="bar-alv" style="width: 92%;"></div>
-                    </div>
-                  </div>
-
-                  <div class="rnd-dep-row">
-                    <div class="rnd-dep-row__label">
-                      <span>Upper-Airway Impaction Loss</span>
-                      <strong id="rnd-pct-impaction">1%</strong>
-                    </div>
-                    <div class="rnd-dep-bar-track">
-                      <div class="rnd-dep-bar-fill rnd-dep-bar-fill--impaction" id="bar-impaction" style="width: 1%;"></div>
-                    </div>
-                  </div>
-
-                  <div class="rnd-dep-row">
-                    <div class="rnd-dep-row__label">
-                      <span>Exhaled / Dead Space Loss</span>
-                      <strong id="rnd-pct-loss">7%</strong>
-                    </div>
-                    <div class="rnd-dep-bar-track">
-                      <div class="rnd-dep-bar-fill rnd-dep-bar-fill--loss" id="bar-loss" style="width: 7%;"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Module 3: Metallurgy & Autoclave Passivation Model -->
-          <div class="rnd-panel" id="panel-rnd-metal" role="tabpanel" aria-labelledby="tab-rnd-metal" data-rnd-panel="metallurgy" hidden>
-            
-            <div class="rnd-panel__header">
-              <h3 class="rnd-panel__title">
-                <span>134°C Steam Autoclave Degradation &amp; PREN Matrix</span>
-              </h3>
-              <span class="rnd-panel__standard-tag">Benchmark: ASTM F899-20 · ISO 17664:2021</span>
-            </div>
-
-            <!-- Controls Column -->
-            <div class="rnd-controls-col">
-              <div class="rnd-slider-group">
-                <div class="rnd-slider-header">
-                  <span class="rnd-slider-label">Alloy Metallurgy</span>
-                </div>
-                <div class="rnd-button-toggle-group">
-                  <button type="button" class="btn btn--sm btn--primary rnd-alloy-btn active" data-alloy="316L">
-                    316L Surgical Stainless
-                  </button>
-                  <button type="button" class="btn btn--sm btn--dark-outline rnd-alloy-btn" data-alloy="304">
-                    304 Clinic Stainless
-                  </button>
-                  <button type="button" class="btn btn--sm btn--dark-outline rnd-alloy-btn" data-alloy="Brass">
-                    Medical Chrome Brass
-                  </button>
-                </div>
-              </div>
-
-              <div class="rnd-slider-group">
-                <div class="rnd-slider-header">
-                  <label for="rnd-metal-cycles" class="rnd-slider-label">Steam Sterilization Cycles (134°C / 2.2 Bar)</label>
-                  <span class="rnd-slider-badge" id="rnd-metal-cycles-val">250 Cycles</span>
-                </div>
-                <input 
-                  type="range" 
-                  id="rnd-metal-cycles" 
-                  class="rnd-range-input" 
-                  min="0" 
-                  max="1500" 
-                  step="10" 
-                  value="250" 
-                  aria-label="Autoclave sterilization cycles"
-                />
-                <div class="rnd-scale-labels">
-                  <span>0 Cycles (Factory)</span>
-                  <span>500 Cycles (Hospital 1-Yr)</span>
-                  <span>1500 Cycles (Extreme Lifecycle)</span>
-                </div>
-              </div>
-
-              <div class="rnd-takeaway">
-                <strong>Biomedical Note:</strong> Zoe Vitals ZV-TRF-050 trays are engineered from 316L molybdenum-stabilized alloy (PREN ≥ 26.2) to prevent micro-pitting across 1,000+ steam cycles.
-              </div>
-            </div>
-
-            <!-- Readout Column -->
-            <div class="rnd-readout-col">
-              <div class="rnd-metrics-grid">
-                <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">Pitting Resistance (PREN)</span>
-                  <div class="rnd-metric-val">
-                    <span id="rnd-metal-pren">26.1</span>
-                    <span class="rnd-metric-unit">Score</span>
-                  </div>
-                  <span class="rnd-metric-status" id="rnd-metal-pren-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> High Passivation (≥ 24)
-                  </span>
-                </div>
-
-                <div class="rnd-metric-card">
-                  <span class="rnd-metric-label">Surface Roughness (Ra)</span>
-                  <div class="rnd-metric-val">
-                    <span id="rnd-metal-ra">0.42</span>
-                    <span class="rnd-metric-unit">µm</span>
-                  </div>
-                  <span class="rnd-metric-status" id="rnd-metal-ra-status">
-                    <span class="status-indicator-dot status-indicator-dot--green"></span> Biofilm Resistant (&lt; 0.8 µm)
-                  </span>
-                </div>
-              </div>
-
-              <!-- PREN Gauge Display -->
-              <div class="rnd-wave-display">
-                <div class="rnd-wave-header">
-                  <span>PREN PASSIVATION PROFILE (%Cr + 3.3·%Mo + 16·%N)</span>
-                  <span id="rnd-metal-summary" style="color: var(--color-pale-mint);">UNRESTRICTED CSSD PASS</span>
-                </div>
-                <div class="rnd-pren-meter-wrap">
-                  <div class="rnd-pren-bar">
-                    <div class="rnd-pren-fill" id="rnd-pren-bar-fill" style="width: 87%;"></div>
-                    <div class="rnd-pren-threshold-line" title="ASTM F899 Minimum Pass Threshold (24.0)">
-                      <span>Pass 24.0</span>
-                    </div>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 9px; color: var(--color-enterprise-text-muted); margin-top: 5px;">
-                    <span>0 (Corrosion Prone)</span>
-                    <span style="color: var(--color-pale-mint);">ASTM Pass Threshold: 24.0</span>
-                    <span>30 (Super-Austenitic)</span>
-                  </div>
-                </div>
-                <p style="font-size: var(--text-xs); color: var(--color-enterprise-text-muted); line-height: 1.5; margin-top: 6px;">
-                  Passivation oxide layer integrity sustains sterilization without chemical breakdown. Suitable for high-temperature porous-load autoclave regimens.
-                </p>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Console Footer Bar -->
-          <div class="rnd-console__footer">
-            <span class="rnd-console__std-label" id="rnd-console-active-std">EN ISO 80601-2-61:2019 · Annex GG (Motion &amp; Low Perfusion Test Protocol)</span>
-            <span class="rnd-console__version-label">Zoe Vitals Hardware Verification Bench v2.4</span>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ======================================================================
-         3. CLINICAL SOURCING DOMAINS (Bento Architecture)
+         2. CLINICAL SOURCING DOMAINS (Bento Architecture)
          ====================================================================== -->
     <section class="section section--alt" id="domains">
       <div class="container">
         
         <header class="section-header" data-reveal="fade-up">
           <div class="section-eyebrow-row">
-            <span class="section-num">03</span>
+            <span class="section-num">02</span>
             <span class="section-line"></span>
             <span class="section-eyebrow-text">Clinical Sourcing Domains</span>
           </div>
@@ -717,14 +331,14 @@
     </section>
 
     <!-- ======================================================================
-         4. CORE PRODUCT CATALOGUE & FILTER ENGINE
+         3. CORE PRODUCT CATALOGUE & FILTER ENGINE
          ====================================================================== -->
     <section class="section catalogue-section" id="catalogue">
       <div class="container">
         
         <header class="section-header" data-reveal="fade-up">
           <div class="section-eyebrow-row">
-            <span class="section-num">04</span>
+            <span class="section-num">03</span>
             <span class="section-line"></span>
             <span class="section-eyebrow-text">Verified Products Catalogue</span>
           </div>
@@ -817,14 +431,14 @@
     </section>
 
     <!-- ======================================================================
-         5. INTERNATIONAL STANDARDS MATRIX & VERIFICATION FRAMEWORK
+         4. INTERNATIONAL STANDARDS MATRIX & VERIFICATION FRAMEWORK
          ====================================================================== -->
     <section class="section section--subtle" id="standards">
       <div class="container">
         
         <header class="section-header" data-reveal="fade-up">
           <div class="section-eyebrow-row">
-            <span class="section-num">05</span>
+            <span class="section-num">04</span>
             <span class="section-line"></span>
             <span class="section-eyebrow-text">International Standards &amp; Verification</span>
           </div>
@@ -933,7 +547,7 @@
         
         <header class="section-header" data-reveal="fade-up">
           <div class="section-eyebrow-row">
-            <span class="section-num">06</span>
+            <span class="section-num">05</span>
             <span class="section-line"></span>
             <span class="section-eyebrow-text">Clinical Intelligence Dossiers</span>
           </div>
@@ -993,14 +607,14 @@
     </section>
 
     <!-- ======================================================================
-         7. CONTACT & PROCUREMENT ENQUIRIES SECTION
+         6. CONTACT & PROCUREMENT ENQUIRIES SECTION
          ====================================================================== -->
     <section class="section section--alt" id="enquiry">
       <div class="container">
         
         <header class="section-header" data-reveal="fade-up">
           <div class="section-eyebrow-row">
-            <span class="section-num">07</span>
+            <span class="section-num">06</span>
             <span class="section-line"></span>
             <span class="section-eyebrow-text">Institutional Procurement Desk</span>
           </div>
@@ -1269,7 +883,6 @@
           <h4 class="footer-col-title">Navigation</h4>
           <ul class="footer-links">
             <li><a href="#hero" class="footer-link">Overview</a></li>
-            <li><a href="#rnd-bench" class="footer-link">R&amp;D Bench</a></li>
             <li><a href="#domains" class="footer-link">Domains</a></li>
             <li><a href="#catalogue" class="footer-link">Catalogue</a></li>
             <li><a href="#standards" class="footer-link">Standards</a></li>

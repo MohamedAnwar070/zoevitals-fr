@@ -8,10 +8,10 @@ Designed for clinical procurement directors, biomedical hospital engineers, and 
 
 ## 1. Platform Architecture & Section Walkthrough
 
-Zoe Vitals is structured into seven high-density, non-repetitive clinical stages that guide procurement teams from technical evaluation to contract enquiry:
+Zoe Vitals is structured into six high-density, non-repetitive clinical stages that guide procurement teams from technical evaluation to contract enquiry:
 
 ```
-[01. Overview] ──> [02. R&D Bench] ──> [03. Domains] ──> [04. Catalogue] ──> [05. Standards] ──> [06. Intelligence] ──> [07. Procurement]
+[01. Overview] ──> [02. Domains] ──> [03. Catalogue] ──> [04. Standards] ──> [05. Intelligence] ──> [06. Procurement]
 ```
 
 ---
@@ -23,42 +23,11 @@ Zoe Vitals is structured into seven high-density, non-repetitive clinical stages
   * `4` Clinical Therapeutic Sourcing Domains.
   * `< 24h` Institutional Procurement SLA.
   * `ISO 13485:2016` Certified Sourcing Baseline.
-* **Direct Action Anchors**: Instant jump links to explore the verified catalogue or launch the R&D testing bench.
+* **Direct Action Anchors**: Instant jump links to explore the verified catalogue or navigate clinical sourcing domains.
 
 ---
 
-### Module 02: Interactive Biomedical R&D Verification Bench (`#rnd-bench`)
-An interactive hardware-lab simulation console inspired by modern component engineering primitives ([designeer.xyz/components](https://www.designeer.xyz/components)). It allows hospital bio-engineers to simulate device performance tolerances against standard testing conditions:
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│  [01 Optical Pulse Oximetry]  [02 Micro-Mesh Aerosol]  [03 Alloy Passivation]│
-├────────────────────────────────────────────────────────────────────────┤
-│  Perfusion Index Slider: [ 1.8% ] ───○─────    [DSP Filter: ACTIVE]    │
-│  Waveform Display: ──/\_/\/\_/\/\_     Arms Accuracy: ±1.8% (ISO 80601)│
-└────────────────────────────────────────────────────────────────────────┘
-```
-
-1. **Panel 1 — Optical Pulse Oximetry (PI & SNR Simulator)**:
-   * **Controls**: Live range slider for Peripheral Perfusion Index ($0.05\%$ to $10.0\%$) and toggle switch for Digital Signal Processing (DSP) adaptive filtering.
-   * **Real-Time Physics**: Dynamically calculates $A_{\text{rms}}$ error tolerances ($\le 2\%$ target) and Signal-to-Noise Ratio (SNR).
-   * **Dynamic Plethysmogram Synthesis**: Mathematically generates a continuous SVG photoplethysmogram arterial waveform including systolic peak and dicrotic notch, responding in real-time to perfusion attenuation and motion artifacts.
-   * **Conformity**: Evaluated against **EN ISO 80601-2-61**.
-
-2. **Panel 2 — Micro-Mesh Aerosol Dynamics (MMAD & Alveolar Deposition)**:
-   * **Controls**: Interactive Mass Median Aerodynamic Diameter (MMAD) slider ($0.5\,\mu\text{m}$ to $8.0\,\mu\text{m}$) and delivery engine toggle (Vibrating Mesh vs. Pneumatic Jet).
-   * **Real-Time Physics**: Live-computes deep alveolar lung penetration percentage vs. upper airway impaction loss.
-   * **Segmented Visual Deposition Meter**: Multi-segment color bar illustrating bronchial distribution efficiency.
-   * **Conformity**: Evaluated against **EN 13544-1:2007+A1**.
-
-3. **Panel 3 — Surgical Metallurgy & Autoclave Alloy Passivation (PREN)**:
-   * **Controls**: Alloy metallurgy selector (Surgical 316L Stainless Steel, 304 General Surgical Steel, or Medical Brass) and repeated steam autoclave sterilization slider ($0$ to $1,500$ cycles at $134^\circ\text{C}$).
-   * **Real-Time Physics**: Computes Pitting Resistance Equivalent Number (PREN: $\%Cr + 3.3\%Mo + 16\%N$), surface roughness ($R_a$ in $\mu\text{m}$), and Central Sterile Services Department (CSSD) compliance ratings.
-   * **Conformity**: Evaluated against **ASTM F899-20** & **ISO 17664:2021**.
-
----
-
-### Module 03: Clinical Sourcing Domains Bento Grid (`#domains`)
+### Module 02: Clinical Sourcing Domains Bento Grid (`#domains`)
 An asymmetrical 2x2 Bento grid delivering structured category overviews without duplicate product listings:
 * **Lead Card**: *Diagnostic & Patient Monitoring* — highlighting telemetry protocols (HL7/DICOM), NIBP fail-safe valving, and continuous SpO2 precision.
 * **Secondary Cards**:
@@ -69,7 +38,7 @@ An asymmetrical 2x2 Bento grid delivering structured category overviews without 
 
 ---
 
-### Module 04: Comprehensive Medical Products Catalogue (`#catalogue`)
+### Module 03: Comprehensive Medical Products Catalogue (`#catalogue`)
 A production-grade product search, filtering, and quotation suite backed by a unified data store (`CATALOGUE_DATA` in `script.js`):
 * **Instant Typeahead Search**: Fuzzy search across product names, clinical categories, technical model numbers, and certification tags with `Escape` clear and `/` hotkey focus.
 * **Category Pill Filtering**: Filter across *All Products*, *Diagnostic & Monitoring*, *Respiratory Care*, *Clinical Consumables*, and *Facility Essentials*.
@@ -82,7 +51,7 @@ A production-grade product search, filtering, and quotation suite backed by a un
 
 ---
 
-### Module 05: Technical Specification Modals & Comparison Tray
+### Module 04: Technical Specification Modals & Comparison Tray
 * **Spec Modal Dialog**: Non-blocking modal displaying device imagery, regulatory approvals, full engineering specifications, and quick quote buttons.
 * **Comparison Matrix Tray**: Floating bar tracking up to 3 pinned devices. Opening the comparison view launches an interactive comparison table highlighting differences in standards, measurement ranges, and sterilization protocols.
 * **Foolproof Dismissal**: Built with triple-redundant closing mechanics:
@@ -93,7 +62,7 @@ A production-grade product search, filtering, and quotation suite backed by a un
 
 ---
 
-### Module 06: International Standards & Verification Matrix (`#standards`)
+### Module 05: International Standards & Verification Matrix (`#standards`)
 Replaces generic marketing claims with a verifiable biomedical compliance table:
 
 | Standard Code | Regulatory Authority | Applicable Scope | Mandatory Protocol & Acceptance Criteria |
@@ -110,7 +79,7 @@ Includes three **Quality Governance Pillars**:
 
 ---
 
-### Module 07: Clinical Intelligence Whitepaper Dossiers (`#intelligence`)
+### Module 06: Clinical Intelligence Whitepaper Dossiers (`#intelligence`)
 Evidence-based technical whitepapers providing engineering analysis for hospital procurement committees:
 1. **Dossier 01**: *Low Perfusion & Motion Artifact Tolerances in Emergency Triage* (PPG optical sensor tolerances).
 2. **Dossier 02**: *Thermal Disinfection & Alloy Passivation in Surgical Instrument Management* (316L vs 304 alloy resistance under $134^\circ\text{C}$ steam).
@@ -120,7 +89,7 @@ Each dossier opens into a full modal containing complete methodology, testing fi
 
 ---
 
-### Module 08: Institutional Procurement Consultation Desk (`#enquiry`)
+### Module 07: Institutional Procurement Consultation Desk (`#enquiry`)
 * **Real Contact Infrastructure**:
   * **Facility & Logistics Hub**: Zoe Vitals Biomedical Campus, 420 Innovation Way, Suite 800, Boston, MA 02142.
   * **Direct Procurement Line**: +1 (800) 555-0199 (Mon–Fri, 08:30–17:30 EST).
