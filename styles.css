@@ -642,15 +642,17 @@ a:hover {
   display: inline-flex;
   align-items: center;
   padding: 0.28rem 0.6rem;
-  font-size: var(--text-xs);
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
   border-radius: var(--radius-xs);
   line-height: 1;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .badge--category {
-  background-color: var(--color-warm-ivory);
+  background-color: var(--color-medical-blue-subtle);
   color: var(--color-medical-blue-deep);
   border: 1px solid var(--color-muted-blue-border);
 }
@@ -2245,6 +2247,14 @@ a:hover {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.16em;
+  color: var(--color-medical-blue);
+  border-color: var(--color-muted-blue-border);
+}
+
+.dossier-card__action:hover {
+  background-color: var(--color-medical-blue);
+  color: #FFFDF0 !important;
+  border-color: var(--color-medical-blue);
 }
 
 .dossier-modal-meta {
