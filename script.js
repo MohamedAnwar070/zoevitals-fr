@@ -330,6 +330,9 @@
     // Header & Navigation
     siteHeader: document.getElementById('site-header'),
     scrollProgress: document.getElementById('scroll-progress'),
+    leftRail: document.getElementById('left-rail'),
+    leftRailFill: document.getElementById('left-rail-fill'),
+    leftRailBtns: document.querySelectorAll('.left-rail__btn'),
     mobileToggle: document.getElementById('mobile-toggle'),
     primaryNav: document.getElementById('primary-nav'),
     navSearchBtn: document.getElementById('nav-search-btn'),
@@ -448,6 +451,11 @@
       elements.scrollProgress.style.transform = `scaleX(${scrollPercent / 100})`;
     }
 
+    // 1b. Base44-Aligned Left Milestone Rail Progress Line
+    if (elements.leftRailFill) {
+      elements.leftRailFill.style.height = `${scrollPercent}%`;
+    }
+
     // 2. Sticky Header Elevation
     if (elements.siteHeader) {
       if (scrollY > 20) {
@@ -492,7 +500,7 @@
       revealTargets.forEach(el => el.classList.add('is-revealed'));
     }
 
-    // Active Section Spy for Navigation & Floating Side Rail
+    // Active Section Spy for Navigation & Base44 Left Milestone Rail
     const trackedSections = document.querySelectorAll('section[id], main > [id]');
     if ('IntersectionObserver' in window && trackedSections.length) {
       const spyObserver = new IntersectionObserver((entries) => {
@@ -504,8 +512,8 @@
         });
       }, {
         root: null,
-        threshold: 0.3,
-        rootMargin: '-10% 0px -60% 0px'
+        threshold: 0,
+        rootMargin: '-45% 0px -50% 0px'
       });
 
       trackedSections.forEach(sec => spyObserver.observe(sec));
@@ -525,6 +533,19 @@
       }
     });
 
+    // Base44 Left Milestone Rail Update
+    if (elements.leftRailBtns && elements.leftRailBtns.length) {
+      elements.leftRailBtns.forEach(btn => {
+        const target = btn.getAttribute('data-section');
+        const isActive = target === sectionId;
+        btn.classList.toggle('is-active', isActive);
+        if (isActive) {
+          btn.setAttribute('aria-current', 'true');
+        } else {
+          btn.removeAttribute('aria-current');
+        }
+      });
+    }
   }
 
   /* ==========================================================================
@@ -1680,6 +1701,21 @@
       }
     });
 
+
+    // Base44 Left Milestone Rail Smooth Scrolling
+    if (elements.leftRailBtns && elements.leftRailBtns.length) {
+      elements.leftRailBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetSectionId = btn.getAttribute('data-section');
+          const targetEl = document.getElementById(targetSectionId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            updateActiveSectionIndicators(targetSectionId);
+          }
+        });
+      });
+    }
 
     if (elements.backToTopBtn) {
       elements.backToTopBtn.addEventListener('click', () => {

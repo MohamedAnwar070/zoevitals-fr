@@ -280,6 +280,148 @@ a:hover {
   transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
 }
 
+/* ==========================================================================
+   4. BASE44-ALIGNED LEFT VERTICAL MILESTONE RAIL & SCROLL SPY
+   ========================================================================== */
+/* Outer fixed container: hidden on mobile, visible on desktop (lg: min-width: 1024px) */
+.left-rail {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 40;
+  height: 100vh;
+  width: 48px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .left-rail {
+    display: flex;
+  }
+}
+
+/* Vertical track: relative h-[62vh] w-px bg-border */
+.left-rail__track {
+  position: relative;
+  height: 62vh;
+  width: 1px;
+  background-color: rgba(20, 35, 44, 0.14);
+}
+
+/* Dynamic scroll-progress fill line: absolute left-0 top-0 w-px bg-primary */
+.left-rail__fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  background-color: var(--color-medical-blue);
+  height: 0%;
+  transition: height 150ms ease-out;
+}
+
+/* Milestone buttons container:
+   Quoted by user: absolute top-1/2 -translate-y-1/2 flex flex-col items-center gap-[2.1rem] pointer-events-auto */
+.left-rail__items {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.1rem;
+  pointer-events: auto;
+}
+
+/* Individual milestone button: group flex items-center gap-2 */
+.left-rail__btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  text-decoration: none;
+  user-select: none;
+}
+
+.left-rail__btn:focus-visible {
+  outline: 2px solid var(--color-medical-blue);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Number: monospace, leading-none, transition 300ms */
+.left-rail__num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: -0.02em;
+}
+
+.left-rail__btn:hover .left-rail__num {
+  color: var(--color-medical-blue);
+}
+
+.left-rail__btn.is-active .left-rail__num {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-medical-blue);
+}
+
+/* Horizontal tick line: h-px, transition 300ms (w-2 inactive vs w-5 active) */
+.left-rail__tick {
+  display: block;
+  height: 1px;
+  width: 8px;
+  background-color: rgba(20, 35, 44, 0.22);
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.left-rail__btn:hover .left-rail__tick {
+  background-color: rgba(76, 125, 159, 0.6);
+}
+
+.left-rail__btn.is-active .left-rail__tick {
+  width: 20px;
+  background-color: var(--color-medical-blue);
+}
+
+/* Hover Tooltip displaying section name */
+.left-rail__tooltip {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  background-color: var(--color-medical-blue-deep);
+  color: var(--color-warm-ivory);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+  box-shadow: 0 4px 12px rgba(20, 35, 44, 0.18);
+  z-index: 50;
+}
+
+.left-rail__btn:hover .left-rail__tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
 
 /* ==========================================================================
    5. LAYOUT UTILITIES
@@ -291,6 +433,12 @@ a:hover {
   margin-right: auto;
   padding-left: var(--container-gutter);
   padding-right: var(--container-gutter);
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: clamp(3.75rem, 5.5vw, 5rem);
+  }
 }
 
 .container--narrow {
